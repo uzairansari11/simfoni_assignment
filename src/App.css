@@ -1,0 +1,32 @@
+/* styles.css */
+.carousel-container .react-multiple-carousel__arrow   {
+  background-color: rgb(255, 254, 254);
+  width: 20px;
+  height: 10px;
+  margin-left: -2rem;
+  margin-right: -2rem;
+  border-radius: 0px;
+  width: 12px;
+  margin-top: -7rem;
+  height: 80px;
+  border-radius: 5px;
+  box-shadow: rgba(121, 123, 123, 0.2) 0px 8px 24px;
+}
+.carousel-container .react-multiple-carousel__arrow::before,
+.carousel-container .react-multiple-carousel__arrow::after {
+  color:teal;
+  font-size: small;
+  font-weight: bolder;
+}
+
+.hide-scrollbar {
+  scrollbar-width: none;
+
+  -ms-overflow-style: none;
+  
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+
+}

@@ -23,7 +23,7 @@ const Card: React.FC = () => {
 	};
 
 	return (
-		<div className="flex flex-col border-2 rounded-lg shadow-lg p-2 w-48 mx-auto my-4">
+		<div className="flex flex-col border-2 rounded-lg shadow-lg p-2 w-48 mx-auto my-4 ">
 			{/* image section  */}
 			<div className="border-2 rounded-lg overflow-hidden  ">
 				<img
@@ -34,26 +34,28 @@ const Card: React.FC = () => {
 			</div>
 			{/* title and serial number */}
 			<div>
-				<h3 className="text-sm font-semibold  text-left mt-2">
+				<h3 className="text-md font-semibold  text-left mt-2 leading-tight">
 					Robhinsons Summer Fruit No Added Sugar 1 Liter
 				</h3>
 				<p className="text-gray-500 text-sm mb-2">906119043</p>
 			</div>
 			{/* price section */}
 			<>
-				<h2 className="text-lg font-bold mb-2 ">
-					$0.83{" "}
+				<p className="text-xl text font-bold mb-2 ">
+					$0.83{"  "}
 					<span className="text-xs text-slate-500 font-normal">/each</span>
-				</h2>
+				</p>
 			</>
 			{/* other details section */}
 			<div>
-				<p className="text-teal-500 text-xs font-semibold">Saving % 4.60</p>
-				<p className="text-gray-600 text-xs font-semibold">
-					Supplier: Supplier
+				<p className="text-teal-500 text-sm font-semibold">
+					Saving % <span className="font-normal"> 4.60</span>
 				</p>
-				<p className="text-gray-600 text-xs font-semibold">
-					Delivery by: 24-Jan-2022
+				<p className="text-gray-600 text-sm font-semibold">
+					Supplier:<span className="font-normal"> Supplier</span>
+				</p>
+				<p className="text-gray-600 text-sm font-semibold">
+					Delivery by:<span className="font-normal"> 24-Jan-2022</span>
 				</p>
 			</div>
 			{/* Buttons section */}
