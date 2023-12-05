@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
-const Card: React.FC = () => {
+const Card: React.FC<{ item: any }> = ({ item }) => {
+	console.log(item, "from card");
 	const [quantity, setQuantity] = useState(1);
 	const [isChecked, setIsChecked] = useState(true);
 	const incrementQuantity = () => {
@@ -27,22 +28,24 @@ const Card: React.FC = () => {
 			{/* image section  */}
 			<div className="border-2 rounded-lg overflow-hidden  ">
 				<img
-					src="https://m.media-amazon.com/images/I/514tViQ5g+L.jpg"
-					alt="Robhinsons"
-					className="w-20 py-6 h-auto m-auto  "
+					src={
+						item.url || "https://m.media-amazon.com/images/I/514tViQ5g+L.jpg"
+					}
+					alt={item.name.substring(0,10)}
+					className="w-20 py-6 h-auto m-auto"
 				/>
 			</div>
 			{/* title and serial number */}
 			<div>
 				<h3 className="text-md font-semibold  text-left mt-2 leading-tight">
-					Robhinsons Summer Fruit No Added Sugar 1 Liter
+					{item?.name.substring(0,30)}...
 				</h3>
-				<p className="text-gray-500 text-sm mb-2">906119043</p>
+				<p className="text-gray-500 text-sm mb-2">{item.sku}</p>
 			</div>
 			{/* price section */}
 			<>
 				<p className="text-xl text font-bold mb-2 ">
-					$0.83{"  "}
+					${item.pricing.customerPrice.unitPrice.value}
 					<span className="text-xs text-slate-500 font-normal">/each</span>
 				</p>
 			</>
@@ -55,7 +58,11 @@ const Card: React.FC = () => {
 					Supplier:<span className="font-normal"> Supplier</span>
 				</p>
 				<p className="text-gray-600 text-sm font-semibold">
-					Delivery by:<span className="font-normal"> 24-Jan-2022</span>
+					Delivery by:
+					<span className="font-normal">
+						{" "}
+						{item.shipping.messages[1]?.text.split(".")[1]}
+					</span>
 				</p>
 			</div>
 			{/* Buttons section */}

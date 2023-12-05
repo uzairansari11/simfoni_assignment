@@ -15,13 +15,13 @@ const MultiCarousel: React.FC<MultiCarouselProps> = ({ children }) => {
 		},
 		tablet: {
 			breakpoint: { max: 1024, min: 640 },
-			items: 5,
+			items: 2,
 			slidesToSlide: 3,
 		},
 		mobile: {
 			breakpoint: { max: 640, min: 0 },
-			items: 5,
-			slidesToSlide: 3,
+			items: 2,
+			slidesToSlide: 1,
 		},
 	};
 

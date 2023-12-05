@@ -1,10 +1,11 @@
+import { ProductReducer } from './products/reducer';
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import { legacy_createStore, combineReducers, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
 
 
 const rootReducer = combineReducers({
-
+ProductReducer
 });
 
 export const store = legacy_createStore(rootReducer, applyMiddleware(thunk));

@@ -1,5 +1,5 @@
-export const PRODUCT_REQUEST: string = "PRODUCT_REQUEST";
+export const PRODUCT_REQUEST = "products/request";
+export const PRODUCT_ERROR = "products/error";
+export const GET_PRODUCTS_SUCCESS = "getProducts/success";
 
-export const PRODUCT_ERROR: string = "PRODUCT_ERROR";
-
-export const GET_PRODUCTS_SUCCESS: string = "GET_PRODUCTS_SUCCESS";
+export const UPDATE_PRODUCT_SUCCESS = "updateProduct/success";

@@ -1,4 +1,4 @@
-import React, { useState, useDeferredValue, useMemo } from "react";
+import React, { useDeferredValue, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import "../App.css";
 const SearchBar = () => {
@@ -27,15 +27,15 @@ const SearchBar = () => {
 
 	return (
 		<div className="relative">
-			<div className="flex items-center border border-gray-300 rounded-lg overflow-hidden mt-1">
+			<div className="flex items-center border border-gray-300 rounded-lg overflow-hidden ">
 				<input
 					type="text"
-					className="py-2 px-4 w-full focus:outline-none bg-white font-semibold"
+					className="py-1 px-4 w-full focus:outline-none bg-white font-semibold"
 					placeholder="Search"
 					value={searchedText}
 					onChange={handleChange}
 				/>
-				<button className="bg-teal-500 px-8 py-2">
+				<button className="bg-teal-500 px-8 py-1">
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
 						className="h-6 w-6 text-white"
@@ -56,7 +56,7 @@ const SearchBar = () => {
 				<div className="absolute top-12 w-full max-h-40 bg-gray-100 rounded-md overflow-y-auto z-10 hide-scrollbar ">
 					{data.map((item) => (
 						<Link
-							to={`/product/${item?.id}`}
+							to={`/item/${item?.id}`}
 							key={item?.id}
 							className="hover:no-underline hover:bg-gray-200"
 							onClick={handleItemClick}

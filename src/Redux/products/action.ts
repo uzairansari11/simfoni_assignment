@@ -1,26 +1,52 @@
-import { PRODUCT_ERROR, PRODUCT_REQUEST } from "./type";
+import { AxiosRequestConfig } from "axios";
+import { AppDispatch } from "../store";
+import { getProductsAPI } from "./api";
+import * as types from "./type";
+import { IProductData } from "../../utils/types";
 
-/* Interfaces */
 export interface IProductRequest {
-	type: typeof PRODUCT_REQUEST;
+	type: typeof types.PRODUCT_REQUEST;
 }
 
 export interface IProductError {
-	type: typeof PRODUCT_ERROR;
+	type: typeof types.PRODUCT_ERROR;
 }
-/* ---------------------------- */
 
-/* Action Creators */
-export const loadingActionCreator: () => IProductRequest = () => {
-	return { type: PRODUCT_REQUEST };
+export interface IGetProductSuccess {
+	type: typeof types.GET_PRODUCTS_SUCCESS;
+	payload: IProductData[];
+}
+
+export type AppAction = IProductRequest | IProductError | IGetProductSuccess;
+
+//action creators
+const productRequest = (): IProductRequest => {
+	return { type: types.PRODUCT_REQUEST };
 };
 
-export const errorActionCreator: () => IProductError = () => {
-	return { type: PRODUCT_ERROR };
+const productError = (): IProductError => {
+	return { type: types.PRODUCT_ERROR };
 };
 
-// export const successActionCreator = (payload) => {
-//   return {type : GET_PRODUCTS_SUCCESS , payload}
-// }
+const getProductSuccess = (data: IProductData[]): IGetProductSuccess => {
+	return { type: types.GET_PRODUCTS_SUCCESS, payload: data };
+};
 
-/* ----------------------------- */
+export const getProducts =
+	(
+		options:AxiosRequestConfig<any>,
+		// getProductsParam?: { params: { category: string[] } }
+	): any =>
+	async (dispatch: AppDispatch) => {
+		dispatch(productRequest());
+
+		try {
+      let data = await getProductsAPI(options);
+     
+			if (data) {
+				dispatch(getProductSuccess(data));
+			}
+		} catch (e) {
+			dispatch(productError());
+		}
+	};
