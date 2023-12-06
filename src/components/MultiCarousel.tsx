@@ -32,7 +32,6 @@ const MultiCarousel: React.FC<MultiCarouselProps> = ({ children }) => {
 				infinite={true}
 				transitionDuration={500}
 				containerClass="carousel-container"
-				itemClass="carousel-item-padding-40-px"
 				arrows={true}
 			>
 				{children}

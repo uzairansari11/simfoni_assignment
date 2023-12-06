@@ -1,6 +1,7 @@
 import Routings from "./Routings/Routings";
 import BottomCategory from "./components/BottomCategory";
 import Footer  from "./components/Footer";
+import GoTopButton from "./components/GoTopButton";
 import Navbar from "./components/Navbar";
 import Navbar1 from "./components/Navbar1";
 
@@ -12,6 +13,7 @@ function App() {
 			<BottomCategory />
 			<Routings />
 			<Footer />
+			<GoTopButton />
 		</div>
 	);
 }

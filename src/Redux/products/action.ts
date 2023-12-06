@@ -89,6 +89,7 @@ export const getSearchedProduct = (options:AxiosRequestConfig<any>): any => asyn
 		try {
 			const response = await axios.request(options);
 			const data = response.data.response.product_collection;
+			console.log(data,"from searched")
 			if (data.length) {
 				dispatch(searchedProduct(data));
 			}

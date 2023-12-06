@@ -1,19 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { getSearchedProduct } from "../Redux/products/action";
 import { useAppDispatch } from "../Redux/store";
 import { options } from "../utils/options";
-
-interface Product {
-	sku: string;
-	name: string;
-	// Add other necessary fields
-}
+import axios from "axios";
 
 const SearchBar: React.FC = () => {
 	const [searchedText, setSearchedText] = useState<string>("");
-	const [show, setShow] = useState<boolean>(false);
-	const [suggestions, setSuggestions] = useState<Product[]>([]);
+	const [show, setShow] = useState<boolean>(true);
+	const [suggestions, setSuggestions] = useState<any[]>([]);
 	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
 
@@ -24,11 +19,37 @@ const SearchBar: React.FC = () => {
 		navigate(`/products/${searchedText}`);
 	};
 
-	const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+	const handleInputChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
 		const { value } = e.target;
 		setSearchedText(value);
 	};
 
+	useEffect(() => {
+		const debouncedSearch = setTimeout(() => {
+			if (searchedText.trim() !== "") {
+				axios
+					.request(options("GET", "search", { keyword: searchedText }))
+					.then((response) => {
+						const data = response.data.response.product_collection;
+						if (data.length > 0) {
+							setSuggestions(data);
+							setShow(true);
+						}
+					})
+					.catch((error) => {
+						console.error("Error fetching suggestions:", error);
+					});
+			} else {
+				setShow(false);
+				setSuggestions([]);
+			}
+		}, 500); 
+
+		return () => {
+			clearTimeout(debouncedSearch);
+		};
+	}, [searchedText]);
+	console.log(suggestions, "suggestion");
 	return (
 		<div className="relative">
 			<div className="flex items-center border border-gray-300 rounded-lg overflow-hidden">
@@ -60,7 +81,7 @@ const SearchBar: React.FC = () => {
 				<div className="absolute top-9 w-full max-h-40 bg-teal-100 rounded-md overflow-y-auto z-50 hide-scrollbar">
 					{suggestions.map((item) => (
 						<Link
-							to={`/item/${item.sku}`} // Update with proper path
+							to={`/products/${searchedText}`} // Update with proper path
 							key={item.sku}
 							className="hover:no-underline hover:bg-gray-200"
 							onClick={() => {

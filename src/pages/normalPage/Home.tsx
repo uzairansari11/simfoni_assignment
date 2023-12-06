@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { getProducts } from "../../Redux/products/action";
-
 import { useAppDispatch, useAppSelector } from "../../Redux/store";
 import GoTopButton from "../../components/GoTopButton";
 import Heading from "../../components/Heading";
@@ -26,11 +25,11 @@ const Home = () => {
 	// console.log(products, " i ma from hone page");
 	const array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
 	return (
-		<div>
+		<div className="px-2">
 			{/* Best Selling Categories */}
-			<div className="bg-white rounded-lg mx-2 py-5 mt-6 w-full ">
+			<div className="bg-white rounded-lg  py-5 mt-6 mx-2">
 				<Heading title="best selling categories" />
-				<div className="px-2 sm:px-4 md:px-8 lg:px-10 lg:gap-4 ">
+				<div className="sm:px-4 md:px-8 lg:px-10    ">
 					<MultiCarousel>
 						{array.map((ele, index) => {
 							return <SimpleCard key={index} />;
@@ -99,7 +98,7 @@ const Home = () => {
 					</MultiCarousel>
 				</div>
 			</div>
-			<GoTopButton />
+		
 		</div>
 	);
 };

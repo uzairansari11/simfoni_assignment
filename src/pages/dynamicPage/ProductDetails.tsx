@@ -47,12 +47,12 @@ const ProductDetails: React.FC = () => {
 				<ErrorComponent message={error} />
 			) : (
 				<div
-					className="container w-full mx-auto px-2 border-2 border-red-500 flex
-						flex-col  md:flex-row lg:flex-row
+					className="container w-full mx-auto px-2  flex
+						flex-col  md:flex-row lg:flex-row mt-3
 						"
 				>
-					<div className="w-full md:w-1/2 lg:w-1/2 flex border-2 border-teal-500">
-						<div className="flex flex-col mr-8 w-20 justify-start items-center">
+					<div className="w-full md:w-1/2 lg:w-1/2 flex justify-between gap-2 px-3">
+						<div className="flex flex-col  w-20 justify-between md:justify-start lg:justify-start items-center  ">
 							{smallImages.map((img, index) => (
 								<div className=" w-20  self-center justify-center mb-2">
 									<img
@@ -69,7 +69,7 @@ const ProductDetails: React.FC = () => {
 								</div>
 							))}
 						</div>
-						<div className="border-2 rounded-md overflow-hidden mr-8 w-80 h-80 flex items-center justify-center">
+						<div className="border-2 rounded-md overflow-hidden  w-80 h-80 flex items-center justify-center">
 							<img
 								src={selectedImage}
 								alt="Selected Product"
