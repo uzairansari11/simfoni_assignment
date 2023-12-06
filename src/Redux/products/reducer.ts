@@ -86,6 +86,7 @@ export const ProductReducer = (
 				},
 			};
 
+		
 		case types.BEST_SELLING_PRODUCT_REQUEST:
 			return {
 				...oldState,

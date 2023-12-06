@@ -216,3 +216,10 @@ export const getBestSellingProduct =
 			dispatch(newArrivalErrors(error.message));
 		}
 	};
+
+
+export const getSavedSearchedResult = 
+	(data: any[]): any =>
+	(dispatch: AppDispatch) => {
+		dispatch(searchedProduct(data));
+	};

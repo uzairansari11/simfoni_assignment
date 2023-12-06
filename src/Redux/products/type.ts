@@ -13,6 +13,7 @@ export const NEW_ARRIVAL_PRODUCT_REQUEST = "new/arrival/products/request";
 /* get data types */
 export const GET_PRODUCTS_SUCCESS = "getProducts/success";
 export const GET_SEARCHED_PRODUCTS = "get/search/products";
+export const GET_SAVED_SEARCHED_PRODUCTS = "get/saved/search/products";
 export const GET_BEST_SELLING_PRODUCTS = "get/best/selling/products";
 export const GET_NEW_ARRIVAL_PRODUCTS = "get/new/arrival/products";
 

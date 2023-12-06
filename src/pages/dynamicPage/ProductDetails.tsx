@@ -4,20 +4,34 @@ import { FiMinus } from "react-icons/fi";
 import { useCurrentParamProduct } from "../../hook/useCurrentParamProduct";
 import LoadingSpinner from "../../components/LoadingSpinner";
 import ErrorComponent from "../../components/ErrorComponent";
+import NoDataFound from "../../components/NoDataFound";
+import MultiCarousel from "../../components/MultiCarousel";
+import Card from "../../components/Card";
+import Heading from "../../components/Heading";
+import { useAppDispatch, useAppSelector } from "../../Redux/store";
+import { IProductData } from "../../utils/types";
+import { getBestSellingProduct } from "../../Redux/products/action";
+import { options } from "../../utils/options";
 const ProductDetails: React.FC = () => {
 	const { currentProduct, id, loading, error } = useCurrentParamProduct();
-	console.log(currentProduct, "from single");
+
+	const bestSelling = useAppSelector(
+		(store) => store.ProductReducer.bestSelling
+	);
 	const smallImages: string[] = [
 		"https://via.placeholder.com/500",
 		"https://via.placeholder.com/600",
 		"https://via.placeholder.com/100",
 	];
+	useEffect(() => {
 
+},[id])
 	const [selectedImage, setSelectedImage] = useState<string>(smallImages[0]);
 	const [additionalInfoOpen, setAdditionalInfoOpen] = useState<boolean>(true);
 	const [longDescriptionOpen, setLongDescriptionOpen] = useState<boolean>(true);
 	const [quantity, setQuantity] = useState<number>(1);
 	const [isChecked, setIsChecked] = useState<boolean>(true);
+		const dispatch = useAppDispatch();
 	const incrementQuantity = () => {
 		setQuantity(quantity + 1);
 	};
@@ -38,11 +52,16 @@ const ProductDetails: React.FC = () => {
 	};
 	useEffect(() => {
 		window.scrollTo(0, 0);
+		dispatch(
+			getBestSellingProduct(
+				options("GET", "search", { keyword: "Best selling" })
+			)
+		);
 	}, []);
 	return (
 		<>
 			{loading ? (
-				<LoadingSpinner height={"100vh"} size={ 30}  />
+				<LoadingSpinner height={"100vh"} size={30} />
 			) : error ? (
 				<ErrorComponent message={error} />
 			) : (
@@ -233,6 +252,29 @@ const ProductDetails: React.FC = () => {
 					</div>
 				</div>
 			)}
+
+			<div className="bg-white rounded-lg mx-2 py-5 mt-6">
+				<Heading title="best selling items" />
+				{bestSelling.loading ? (
+					<LoadingSpinner size={30} />
+				) : bestSelling.error ? (
+					<ErrorComponent message={bestSelling.error} />
+				) : bestSelling.bestSellingData.length > 0 ? (
+					<div className=" px-2 sm:px-4 md:px-8 gap-4">
+						<MultiCarousel arrow={true}>
+							{bestSelling.bestSellingData.map((ele: IProductData) => {
+								return (
+									<div className="mr-2 ml-2" key={ele.sku}>
+										<Card item={ele} />
+									</div>
+								);
+							})}
+						</MultiCarousel>
+					</div>
+				) : (
+					<NoDataFound />
+				)}
+			</div>
 		</>
 	);
 };

@@ -24,7 +24,7 @@ const useCurrentParamProduct = () => {
 	};
 	useEffect(() => {
 	getProductDetails()
-},[])
+},[ id])
 	
 
 	return {currentProduct,id,loading,error}

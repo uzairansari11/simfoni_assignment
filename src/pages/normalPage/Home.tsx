@@ -79,7 +79,7 @@ const Home = () => {
 					{bestSelling.loading ? (
 						<LoadingSpinner size={30} />
 					) : bestSelling.error ? (
-						<ErrorComponent message={error} />
+						<ErrorComponent message={bestSelling.error} />
 					) : bestSelling.bestSellingData.length > 0 ? (
 						<div className=" px-2 sm:px-4 md:px-8 gap-4">
 							<MultiCarousel arrow={true}>
@@ -135,7 +135,7 @@ const Home = () => {
 						</MultiCarousel>
 					</div>
 				</div>
-					<PeopleSearch />
+				<PeopleSearch />
 			</div>
 		</>
 	);

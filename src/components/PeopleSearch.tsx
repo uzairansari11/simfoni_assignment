@@ -4,7 +4,7 @@ const PeopleSearch = () => {
 	
 
 	return (
-		<div className="bg-white  mx-2 my-4 px-4  py-2 rounded-md ">
+		<div className="bg-white  mx-2 my-4 px-4  py-4 rounded-lg ">
 			<h2 className="text-md font-semibold mb-4 uppercase">
 				People Searching for
 			</h2>

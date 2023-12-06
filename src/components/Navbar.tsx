@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import SearchBar from "./Searchbar";
-import { useAppDispatch, useAppSelector } from "../Redux/store";
 import { getProductSorted } from "../Redux/products/action";
+import { useAppDispatch, useAppSelector } from "../Redux/store";
+import SearchBar from "./Searchbar";
 
 const Navbar = () => {
 	const dispatch = useAppDispatch();

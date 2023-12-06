@@ -2,12 +2,15 @@ import React from "react";
 
 interface ErrorProps {
 	message: string | boolean;
-	height?:string
+	height?: string;
 }
 
-const ErrorComponent: React.FC<ErrorProps> = ({ message,height }) => {
+const ErrorComponent: React.FC<ErrorProps> = ({ message, height }) => {
 	return (
-		<div className={`flex justify-center items-center h-${height || "auto"}`}>
+		<div
+			className={`flex justify-center items-center`}
+			style={{ height: height || "auto" }}
+		>
 			<div
 				className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"
 				role="alert"
