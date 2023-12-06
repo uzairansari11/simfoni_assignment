@@ -24,7 +24,7 @@ const AllItems: React.FC<{
 				</Link>
 			</div>
 			{loading ? (
-				<LoadingSpinner />
+				<LoadingSpinner size={ 30} />
 			) : error ? (
 				<ErrorComponent message={error} />
 			) : product.length > 0 ? (

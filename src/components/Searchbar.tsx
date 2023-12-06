@@ -43,7 +43,7 @@ const SearchBar: React.FC = () => {
 				setShow(false);
 				setSuggestions([]);
 			}
-		}, 500); 
+		}, 2000);
 
 		return () => {
 			clearTimeout(debouncedSearch);
@@ -78,7 +78,10 @@ const SearchBar: React.FC = () => {
 				</button>
 			</div>
 			{show && suggestions.length > 0 && (
-				<div className="absolute top-9 w-full max-h-40 bg-teal-100 rounded-md overflow-y-auto z-50 hide-scrollbar">
+				<div
+					style={{ zIndex: 200 }}
+					className="absolute top-9 w-full max-h-40 bg-teal-100 rounded-md overflow-y-auto  hide-scrollbar"
+				>
 					{suggestions.map((item) => (
 						<Link
 							to={`/products/${searchedText}`} // Update with proper path

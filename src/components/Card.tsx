@@ -68,8 +68,8 @@ const Card: React.FC<{ item: any }> = ({ item }) => {
 				</p>
 			</div>
 
-			<div className="flex flex-col sm:flex-row justify-between items-center mt-4 ">
-				<div className="hidden md:flex lg:flex items-center space-x-4 mb-2 sm:mb-0 border-2 rounded-lg max-h-10 ">
+			<div className="flex flex-col sm:flex-row justify-between items-center mt-4   gap-2 lg:justify-between    ">
+				<div className="hidden md:flex lg:flex items-center space-x-4 mb-2 sm:mb-0 rounded-lg max-h-10  border-2">
 					<button
 						className=" hover:bg-teal-500 text-gray-600 font-bold py-2 px-4 rounded"
 						onClick={decrementQuantity}
@@ -85,19 +85,19 @@ const Card: React.FC<{ item: any }> = ({ item }) => {
 					</button>
 				</div>
 
-				<div className="flex sm:block md:block lg:block w-full gap-x-2 items-center ">
+				<div className="flex sm:block md:block lg:block   items-center w-full gap-3 ">
 					<button
 						onClick={handleHeartClick}
 						className=" flex justify-center items-center "
 					>
 						<div
-							className={`h-9 w-9 text-teal-500 hover:text-teal-700 border-2 border-teal-500 p-1 rounded-lg flex items-center justify-center ${
+							className={`h-9 w-9 hover:text-teal-700 p-1 rounded-lg flex items-center justify-center ${
 								isChecked ? "bg-teal-500" : "bg-white"
-							}`}
+							} `}
 						>
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
-								className="h-9 w-6"
+								className="h-9 w-6 "
 								fill={isChecked ? "white" : "none"}
 								viewBox="0 0 26 25"
 								stroke="currentColor"

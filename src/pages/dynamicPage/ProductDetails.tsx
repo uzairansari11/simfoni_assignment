@@ -42,7 +42,7 @@ const ProductDetails: React.FC = () => {
 	return (
 		<>
 			{loading ? (
-				<LoadingSpinner height={"screen"} />
+				<LoadingSpinner height={"100vh"} size={ 30}  />
 			) : error ? (
 				<ErrorComponent message={error} />
 			) : (
@@ -222,7 +222,11 @@ const ProductDetails: React.FC = () => {
 							</div>
 							{longDescriptionOpen && (
 								<div className=" mt-2 text-gray-400">
-									<p>{currentProduct?.manufacturer.details}</p>
+									<p>
+										{currentProduct?.manufacturer.details == "0"
+											? "N/A"
+											: currentProduct?.manufacturer.details}
+									</p>
 								</div>
 							)}
 						</div>

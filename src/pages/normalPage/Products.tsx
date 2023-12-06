@@ -19,13 +19,13 @@ const Products: React.FC = () => {
 
 	const dispatch = useAppDispatch();
 	useEffect(() => {
+		window.scrollTo(0, 0);
 		if (products.length === 0 && id === ALL_ITEMS) {
 			dispatch(getProducts(options("GET", "list")));
 		}
 		if (searchedQuery.searchedData.length === 0 && id !== ALL_ITEMS) {
-					console.log("i am in searchedQuery", id);
-		dispatch(getSearchedProduct(options("GET", "search", { keyword: id })));
-	
+		
+			dispatch(getSearchedProduct(options("GET", "search", { keyword: id })));
 		}
 	}, [dispatch, id, products.length, searchedQuery.searchedData.length]);
 	console.log(searchedQuery, "from product pages", id);
@@ -59,4 +59,3 @@ const Products: React.FC = () => {
 };
 
 export default Products;
-
