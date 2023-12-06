@@ -74,4 +74,28 @@ export const categories = [
         {id:2,url:"https://img.freepik.com/free-photo/excited-girl-scream-joy-making-fist-pump-holding-shopping-bag-rejoicing-standing-dress-ove_1258-120529.jpg?w=1380&t=st=1701831283~exp=1701831883~hmac=d3d9389b339a7233ed82ef317976ca9156f45edc104ea7d3b4301bf2f2d32804"},
         { id: 3, url: "https://img.freepik.com/free-photo/black-friday-elements-assortment_23-2149074076.jpg?w=1060&t=st=1701831241~exp=1701831841~hmac=84444807a73c60aa719c7442e2caaea660842217edacccc3369d5eb17b92c8e3" },
 		
+];
+	
+
+export const PEOPLE_SEARCHED_DATA = [
+		"Construction Helmet",
+		"Saws",
+		"Cider",
+		"Apple Juice",
+		"Construction Costume Blue",
+		"Tapes",
+		"Construction Suit",
+		"Pullers",
+		"Pickaxes and Crowbars",
+		"Carrots",
+		"Construction Hammer",
+		"Wrenches",
+		"Screwdrivers",
+		"Construction Shovels",
+		"Pullers",
+		"Kinoa",
+		"Banana",
+		"Apple Cider Vinegar",
+		"Storage Container",
+		"Orange Squash",
 	];

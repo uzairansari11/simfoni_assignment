@@ -37,8 +37,8 @@ const Card: React.FC<{ item: any }> = ({ item }) => {
 			</Link>
 
 			<div>
-				<h3 className="text-md font-semibold  text-left mt-2 leading-tight">
-					{item?.name?.substring(0, 30) ?? "N/A"}...
+				<h3 className="text-sm font-semibold  text-left mt-2 leading-tight">
+					{item?.name?.substring(0, 20) ?? "N/A"}...
 				</h3>
 				<p className="text-gray-500 text-sm mb-2">{item?.sku}</p>
 			</div>

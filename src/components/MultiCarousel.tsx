@@ -4,9 +4,10 @@ import "react-multi-carousel/lib/styles.css";
 import "../App.css";
 interface MultiCarouselProps {
 	children: React.ReactNode;
+	arrow?:boolean
 }
 
-const MultiCarousel: React.FC<MultiCarouselProps> = ({ children }) => {
+const MultiCarousel: React.FC<MultiCarouselProps> = ({ children ,arrow}) => {
 	const responsive = {
 		desktop: {
 			breakpoint: { max: 1280, min: 1024 },
@@ -26,13 +27,14 @@ const MultiCarousel: React.FC<MultiCarouselProps> = ({ children }) => {
 	};
 
 	return (
-		<div className="carousel-container  w-full">
+		<div className="carousel-container  w-full ">
 			<Carousel
 				responsive={responsive}
 				infinite={true}
 				transitionDuration={500}
 				containerClass="carousel-container"
-				arrows={true}
+				arrows={arrow || false}
+				itemClass="carousel-item-padding-40-px"
 			>
 				{children}
 			</Carousel>
