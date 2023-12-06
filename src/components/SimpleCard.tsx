@@ -2,7 +2,7 @@ import React from "react";
 
 const SimpleCard: React.FC = () => {
 	return (
-		<div className="w-48 mx-auto bg-white rounded-md shadow-sm shadow-slate-400 overflow-hidden border-2 ">
+		<div className="w-auto mx-auto bg-white rounded-md shadow-sm shadow-slate-400 overflow-hidden border-2 ml-2">
 			<div className="flex flex-col items-center">
 				<img
 					className="h-28 w-40 object-contain md:w-40"

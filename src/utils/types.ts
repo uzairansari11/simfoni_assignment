@@ -8,7 +8,8 @@ export interface IHeaderConfig {
 export interface IOptions {
   method: string,
   url: string,
-  headers:IHeaderConfig
+  headers: IHeaderConfig
+  params?:object |Array<object>
 }
 
 export interface IProductData {
@@ -46,11 +47,28 @@ export interface IProductData {
   };
   promo_text: string;
   shipping: {
-    messages: string[];
+    messages: [{text:string,type:string,programs:[string]}];
   };
+
   sku: string;
   special_sku_type: number;
   sponsoredData: null;
   three_d_info: null;
   url: string;
 }
+
+export interface ApiResponse {
+  response: {
+    data: {
+      category: {
+        browse: {
+          products: IProductData[]; 
+        };
+      };
+    };
+  };
+}
+
+
+export type ILoading = boolean
+export type IError = string | boolean

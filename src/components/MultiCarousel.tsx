@@ -26,7 +26,7 @@ const MultiCarousel: React.FC<MultiCarouselProps> = ({ children }) => {
 	};
 
 	return (
-		<div className="carousel-container">
+		<div className="carousel-container  w-full">
 			<Carousel
 				responsive={responsive}
 				infinite={true}

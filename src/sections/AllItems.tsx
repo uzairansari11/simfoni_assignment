@@ -1,28 +1,41 @@
 import { Link } from "react-router-dom";
 import Card from "../components/Card";
-import { IProductData } from "../utils/types";
+import { IError, ILoading, IProductData } from "../utils/types";
+import { ALL_ITEMS } from "../constants/constants";
+import LoadingSpinner from "../components/LoadingSpinner";
+import ErrorComponent from "../components/ErrorComponent";
 
-const AllItems: React.FC<{ product: IProductData[] }> = ({ product }) => {
-	console.log(product, "from all");
+const AllItems: React.FC<{
+	product: IProductData[];
+	loading: ILoading;
+	error: IError;
+}> = ({ product, loading, error }) => {
 	return (
 		<div className="bg-white rounded-lg mx-2 py-5 mt-6">
-			<div className="flex justify-between px-24 ">
+			<div className="flex justify-between px-2 sm:px-4 md:px-8 lg:px-10 ">
 				<p className="text-transform: uppercase  px-2 font-bold text-sm">
 					all items
 				</p>
 				<Link
 					className="text-transform: capitalize  px-2 font-bold text-sm text-teal-500"
-					to={"/products/allitems"}
+					to={`/products/${ALL_ITEMS}`}
 				>
 					see More &gt;
 				</Link>
 			</div>
-			<div className="grid grid-cols-2 sm:grid-cols-2  lg:grid-cols-5 gap-4 px-24">
-				{product.length > 0 &&
-					product.map((ele: IProductData) => {
+			{loading ? (
+				<LoadingSpinner />
+			) : error ? (
+				<ErrorComponent message={error} />
+			) : product.length > 0 ? (
+				<div className="grid grid-cols-2 sm:grid-cols-2  lg:grid-cols-5 gap-4 px-2 sm:px-4 md:px-8 lg:px-10 lg:gap-4">
+					{product.map((ele: IProductData) => {
 						return <Card key={ele.sku} item={ele} />;
 					})}
-			</div>
+				</div>
+			) : (
+				<p>No data found</p>
+			)}
 		</div>
 	);
 };

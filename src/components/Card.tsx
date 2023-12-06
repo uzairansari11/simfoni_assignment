@@ -1,7 +1,7 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
 const Card: React.FC<{ item: any }> = ({ item }) => {
-	console.log(item, "from card");
 	const [quantity, setQuantity] = useState(1);
 	const [isChecked, setIsChecked] = useState(true);
 	const incrementQuantity = () => {
@@ -24,21 +24,25 @@ const Card: React.FC<{ item: any }> = ({ item }) => {
 	};
 
 	return (
-		<div className="flex flex-col border-2 rounded-lg shadow-lg p-2 w-48 mx-auto my-4 ">
+		<div className="flex flex-col border-2 rounded-lg shadow-lg p-2 w-auto mx-auto my-4 ">
 			{/* image section  */}
-			<div className="border-2 rounded-lg overflow-hidden  ">
-				<img
-					src={
-						item.url || "https://m.media-amazon.com/images/I/514tViQ5g+L.jpg"
-					}
-					alt={item.name.substring(0,10)}
-					className="w-20 py-6 h-auto m-auto"
-				/>
-			</div>
+			<Link to={`/item/${item.sku}`}>
+				<div className="border-2 rounded-lg overflow-hidden  ">
+					<img
+						src={item.url || "https://example.com/default-image.jpg"}
+						alt={item.name.substring(0, 10)}
+						className="w-20 py-6 h-auto m-auto"
+						// onError={addDefaultSrc}
+						// // onError={(e) => {
+						// // 	e.currentTarget.src = "https://example.com/default-image.jpg";
+						// // }}
+					/>
+				</div>
+			</Link>
 			{/* title and serial number */}
 			<div>
 				<h3 className="text-md font-semibold  text-left mt-2 leading-tight">
-					{item?.name.substring(0,30)}...
+					{item?.name.substring(0, 30)}...
 				</h3>
 				<p className="text-gray-500 text-sm mb-2">{item.sku}</p>
 			</div>
@@ -60,8 +64,7 @@ const Card: React.FC<{ item: any }> = ({ item }) => {
 				<p className="text-gray-600 text-sm font-semibold">
 					Delivery by:
 					<span className="font-normal">
-						{" "}
-						{item.shipping.messages[1]?.text.split(".")[1]}
+						{item.shipping.messages[1]?.text.split(".")[1] || " N/A"}
 					</span>
 				</p>
 			</div>
@@ -123,4 +126,4 @@ const Card: React.FC<{ item: any }> = ({ item }) => {
 	);
 };
 
-export default Card;
+export default React.memo(Card);

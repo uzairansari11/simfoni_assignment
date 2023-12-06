@@ -1,18 +1,24 @@
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import Card from "../../components/Card";
+import { getProducts } from "../../Redux/products/action";
+
+import { useAppDispatch, useAppSelector } from "../../Redux/store";
 import GoTopButton from "../../components/GoTopButton";
 import Heading from "../../components/Heading";
 import MultiCarousel from "../../components/MultiCarousel";
 import SimpleCard from "../../components/SimpleCard";
 import AllItems from "../../sections/AllItems";
-import { useAppDispatch, useAppSelector } from "../../Redux/store";
-import { useEffect } from "react";
-import { getProducts } from "../../Redux/products/action";
-import { options } from "../../Redux/products/api";
+import { options } from "../../utils/options";
+import MainCarousel from "../../components/MainCarousel";
+import { images } from "../../constants/constants";
 
 const Home = () => {
 	const dispatch = useAppDispatch();
-	const products = useAppSelector((store) => store.ProductReducer.data);
+	const {
+		data: products,
+		loading,
+		error,
+	} = useAppSelector((store) => store.ProductReducer);
 	useEffect(() => {
 		dispatch(getProducts(options("GET", "list")));
 	}, []);
@@ -22,10 +28,9 @@ const Home = () => {
 	return (
 		<div>
 			{/* Best Selling Categories */}
-			<div className="bg-white rounded-lg mx-2 py-5 mt-6">
+			<div className="bg-white rounded-lg mx-2 py-5 mt-6 w-full ">
 				<Heading title="best selling categories" />
-
-				<div className="px-24">
+				<div className="px-2 sm:px-4 md:px-8 lg:px-10 lg:gap-4 ">
 					<MultiCarousel>
 						{array.map((ele, index) => {
 							return <SimpleCard key={index} />;
@@ -34,7 +39,20 @@ const Home = () => {
 				</div>
 			</div>
 			{/* ------------------------------------------------------ */}
-
+			<div className=" w-full px-2 mt-6 h-96 ">
+				<MainCarousel>
+					{images.map((ele) => {
+						return (
+							<img
+								src={ele.url}
+								alt={ele.id.toString()}
+								className=" w-full h-96 object-fit"
+								key={ele.id}
+							/>
+						);
+					})}
+				</MainCarousel>
+			</div>
 			{/* Best Selling Items */}
 			<div className="bg-white rounded-lg mx-2 py-5 mt-6">
 				<Heading title="best selling items" />
@@ -45,11 +63,13 @@ const Home = () => {
 				</div>
 			</div>
 			<AllItems
-				product={products.filter((ele, index) => index >= 0 && index < 10)}
+				product={products.filter((_, index) => index >= 0 && index < 10)}
+				loading={loading}
+				error={error}
 			/>
 			{/* New Arrivals */}
 			<div className="bg-white rounded-lg mx-2 py-5 mt-6 ">
-				<div className="flex justify-between px-24 ">
+				<div className="flex justify-between px-2 sm:px-4 md:px-8 lg:px-10 ">
 					<p className="text-transform: uppercase  px-2 font-bold text-sm">
 						new arrival
 					</p>
@@ -71,7 +91,7 @@ const Home = () => {
 			{/* Top Suppliers */}
 			<div className="bg-white rounded-lg mx-2 py-5 mt-6">
 				<Heading title="top suppliers" />
-				<div className="px-24">
+				<div className="px-2 sm:px-4 md:px-8 lg:px-10 lg:gap-4">
 					<MultiCarousel>
 						{array.map((ele, index) => {
 							return <SimpleCard key={index} />;
