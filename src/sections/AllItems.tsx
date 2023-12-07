@@ -5,12 +5,16 @@ import { ALL_ITEMS } from "../constants/constants";
 import LoadingSpinner from "../components/LoadingSpinner";
 import ErrorComponent from "../components/ErrorComponent";
 import NoDataFound from "../components/NoDataFound";
+import { useEffect } from "react";
 
 const AllItems: React.FC<{
 	product: IProductData[];
 	loading: ILoading;
 	error: IError;
 }> = ({ product, loading, error }) => {
+	useEffect(() => {
+		
+	},[product.length])
 	return (
 		<div className="bg-white rounded-lg mx-2 py-5 mt-6">
 			<div className="flex justify-between px-2 sm:px-4 md:px-8 lg:px-10 ">

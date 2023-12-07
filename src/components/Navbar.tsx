@@ -1,17 +1,17 @@
-import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
 import React, { useState } from "react";
 import { IoMdArrowDropdown } from "react-icons/io";
 import { useLocation } from "react-router-dom";
 import {
 	getProductSorted,
+	getProducts,
+	getSearchedProduct,
 	getSearchedSorted,
-	productFiltered,
-	searchedFiltered,
 } from "../Redux/products/action";
 import { useAppDispatch, useAppSelector } from "../Redux/store";
 import { IProductData } from "../utils/types";
 import SearchBar from "./Searchbar";
+import { options } from "../utils/options";
 const Navbar = () => {
 	const dispatch = useAppDispatch();
 	const product = useAppSelector((store) => store.ProductReducer.data);
@@ -19,39 +19,13 @@ const Navbar = () => {
 		(store) => store.ProductReducer.searchedQuery.searchedData
 	);
 	const location = useLocation();
-
 	const [sortedValue, setSortedValue] = useState<string>("");
-
-	const [showSlider, setShowSlider] = useState<boolean>(false);
-	const [priceRange, setPriceRange] = useState<[number, number]>([0, 20000]);
-
+	const [maxPrice, setMaxPrice] = useState<number>(20000);
+	const [showFilter, setShowFilter] = useState<boolean>(false);
+	console.log(location.pathname.split("/")[2], "from nav");
 	const handleDropDownChange = () => {
-		setShowSlider(!showSlider);
+		setShowFilter(!showFilter);
 	};
-
-const handlePriceChange = async (value: number | number[]) => {
-	const originalProductData =
-		location.pathname !== "/products/allitems"
-			? searchedData.slice()
-			: product.slice();
-
-	let filteredData: IProductData[] = [];
-
-	if (Array.isArray(value)) {
-		setPriceRange(value as [number, number]);
-
-		filteredData = originalProductData.filter(
-			(item) => item.price >= value[0] && item.price <= value[1]
-		);
-	}
-
-	if (location.pathname !== "/products/allitems") {
-		dispatch(searchedFiltered(filteredData));
-	} else {
-		dispatch(productFiltered(filteredData));
-	}
-};
-
 
 	const handleSort = (value: string) => {
 		const updatedSelectedData =
@@ -83,6 +57,31 @@ const handlePriceChange = async (value: number | number[]) => {
 			dispatch(getProductSorted(sortedData));
 		}
 	};
+	const handleFilterApply = () => {
+		console.log("hello");
+		setShowFilter(false);
+
+		if (location.pathname !== "/products/allitems") {
+			dispatch(
+				getSearchedProduct(
+					options("GET", "products/search", {
+						keyword: location.pathname.split("/")[2],
+						filters: `&filter=item_price~${maxPrice}`,
+					})
+				)
+			);
+		} else {
+			console.log("inside dispatch");
+			dispatch(
+				getProducts(
+					options("GET", "products/search", {
+						keyword: "All",
+						filters: `&filter=item_price~${maxPrice}`,
+					})
+				)
+			);
+		}
+	};
 
 	return (
 		<div className=" flex justify-between gap-x-10  py-2 items-center px-4 mt-4">
@@ -107,20 +106,30 @@ const handlePriceChange = async (value: number | number[]) => {
 								<IoMdArrowDropdown />
 							</button>
 						</div>
-						{showSlider && (
-							<div className="absolute z-10 mt-2 w-64 bg-white rounded-lg shadow-lg p-4">
-								<Slider
-									min={0}
-									max={20000} // Adjust the maximum value based on your price range
-									value={priceRange}
-									onChange={handlePriceChange}
-									range
-									
-								/>
-								<div className="flex justify-between mt-2">
-									<span>{priceRange[0]}</span>
-									<span>{priceRange[1]}</span>
+						{showFilter && (
+							<div className="absolute z-10 mt-2 w-52 bg-white rounded-lg shadow-lg p-4 gap-4">
+								<div className="flex items-center justify-between mb-2 gap-4">
+									<input
+										type="number"
+										placeholder="Min Price"
+										disabled
+										className="w-1/2 py-1 px-2 border rounded-md focus:outline-none"
+									/>
+									<input
+										type="number"
+										placeholder="Max Price"
+										value={maxPrice}
+										onChange={(e) => setMaxPrice(parseInt(e.target.value))}
+										className="w-1/2 py-1 px-2 border rounded-md focus:outline-none"
+									/>
 								</div>
+								<button
+									type="button"
+									onClick={handleFilterApply}
+									className="w-full py-2 px-4 bg-teal-50 text-black rounded-md hover:bg-teal-500 focus:outline-none"
+								>
+									Apply Filter
+								</button>
 							</div>
 						)}
 					</div>
