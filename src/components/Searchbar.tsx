@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../App.css";
 import {
@@ -17,7 +17,7 @@ const SearchBar: React.FC = () => {
 	const searchInputRef = useRef<HTMLInputElement>(null);
 	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
-	const handleClickOutside = (event: MouseEvent) => {
+	const handleClickOutside = useCallback((event: MouseEvent) => {
 		if (
 			searchInputRef.current &&
 			!searchInputRef.current.contains(event.target as Node)
@@ -25,7 +25,8 @@ const SearchBar: React.FC = () => {
 			setShow(false);
 			setShowPastSearches(false);
 		}
-	};
+	}, []);
+
 	const saveSearchToSessionStorage = (searchTerm: string) => {
 		const pastSearches = sessionStorage.getItem("pastSearches");
 		let searches = [];
@@ -52,7 +53,6 @@ const SearchBar: React.FC = () => {
 		saveSearchToSessionStorage(searchedText);
 		setSearchedText("");
 		navigate(`/products/${searchedText}`);
-	
 	};
 	useEffect(() => {
 		document.addEventListener("mousedown", handleClickOutside);
@@ -106,7 +106,7 @@ const SearchBar: React.FC = () => {
 	};
 
 	return (
-		<div className="relative">
+		<div className="relative" ref={searchInputRef}>
 			<div className="flex items-center border border-gray-300 rounded-lg overflow-hidden">
 				<input
 					type="text"
@@ -115,7 +115,6 @@ const SearchBar: React.FC = () => {
 					value={searchedText}
 					onChange={handleInputChange}
 					onClick={handleInputBoxClick}
-					ref={searchInputRef}
 				/>
 				<button className="bg-teal-500 px-8 py-1" onClick={handleSearchResult}>
 					<svg

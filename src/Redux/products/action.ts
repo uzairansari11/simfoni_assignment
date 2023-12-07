@@ -69,6 +69,36 @@ export interface INewArrival {
 	payload: IProductData[];
 }
 
+
+export interface IBestSellingCategoryRequest {
+	type: typeof types.BEST_SELLING_CATEGORY_PRODUCT_REQUEST;
+}
+
+export interface IBestSellingCategoryError {
+	type: typeof types.BEST_SELLING_CATEGORY_PRODUCT_ERROR;
+	payload: IError;
+}
+
+export interface IBestSellingCategory {
+	type: typeof types.GET_BEST_SELLING_CATEGORY_PRODUCTS;
+	payload: IProductData[];
+}
+
+export interface ITopSupplierRequest {
+	type: typeof types.TOP_SUPPLIERS_PRODUCTS_REQUEST;
+}
+
+export interface ITopSupplierError {
+	type: typeof types.TOP_SUPPLIERS_PRODUCTS_ERROR;
+	payload: IError;
+}
+
+export interface ITopSupplier {
+	type: typeof types.GET_TOP_SUPPLIERS_PRODUCTS;
+	payload: IProductData[];
+}
+
+
 export type AppAction =
 	| IProductRequest
 	| IProductError
@@ -83,7 +113,13 @@ export type AppAction =
 	| INewArrivalRequest
 	| INewArrivalError
 	| INewArrival
-	| ISearchedSorted;
+	| ISearchedSorted
+	| IBestSellingCategoryError
+	| IBestSellingCategoryRequest
+	| IBestSellingCategory
+	| ITopSupplierRequest
+	| ITopSupplierError
+	| ITopSupplier;
 
 /* ---------------------------------------------------------------------------------------- */
 
@@ -145,6 +181,38 @@ export const newArrivalErrors = (data: IError): INewArrivalError => {
 export const newArrivalProduct = (data: IProductData[]): INewArrival => {
 	return { type: types.GET_NEW_ARRIVAL_PRODUCTS, payload: data };
 };
+
+export const bestSellingCategoryRequest = (): IBestSellingCategoryRequest => {
+	return { type: types.BEST_SELLING_CATEGORY_PRODUCT_REQUEST };
+};
+
+export const bestSellingCategoryErrors = (data: IError): IBestSellingCategoryError => {
+	return { type: types.BEST_SELLING_CATEGORY_PRODUCT_ERROR, payload: data };
+};
+
+export const bestSellingCategoryProduct = (
+	data: IProductData[]
+): IBestSellingCategory => {
+	return { type: types.GET_BEST_SELLING_CATEGORY_PRODUCTS, payload: data };
+};
+
+
+export const topSuppliersRequest = (): ITopSupplierRequest => {
+	return { type: types.TOP_SUPPLIERS_PRODUCTS_REQUEST };
+};
+
+export const topSuppliersErrors = (
+	data: IError
+): ITopSupplierError => {
+	return { type: types.TOP_SUPPLIERS_PRODUCTS_ERROR, payload: data };
+};
+
+export const topSuppliersProduct = (
+	data: IProductData[]
+): ITopSupplier => {
+	return { type: types.GET_TOP_SUPPLIERS_PRODUCTS, payload: data };
+};
+
 
 /* ---------------------------------------------------------------------------------------- */
 

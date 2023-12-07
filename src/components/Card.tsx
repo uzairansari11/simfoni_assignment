@@ -71,7 +71,7 @@ const Card: React.FC<{ item: IProductData }> = ({ item }) => {
 			</div>
 
 			<div className="flex flex-col sm:flex-row justify-between items-center mt-4   gap-2 lg:justify-between    ">
-				<div className="hidden  md:flex lg:flex items-center space-x-4 mb-2 sm:mb-0 rounded-lg max-h-10  border-2">
+				<div className="hidden sm:flex md:flex lg:flex items-center space-x-4 mb-2 sm:mb-0 rounded-lg max-h-10  border-2">
 					<button
 						className=" hover:bg-teal-500 text-gray-600 font-bold py-2 px-4 rounded"
 						onClick={decrementQuantity}
@@ -115,7 +115,7 @@ const Card: React.FC<{ item: IProductData }> = ({ item }) => {
 					</button>
 
 					<button
-						className="bg-teal-500 hover:bg-teal-700 text-white font-bold py-1.5 px-4 rounded w-full sm:block md:hidden lg:hidden"
+						className="bg-teal-500 hover:bg-teal-700 text-white font-bold py-1.5 px-4 rounded w-full sm:hidden md:hidden lg:hidden"
 						onClick={handleAddToCart}
 					>
 						Add
@@ -124,7 +124,7 @@ const Card: React.FC<{ item: IProductData }> = ({ item }) => {
 			</div>
 
 			<button
-				className="hidden md:block lg:block bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded mt-2 w-full"
+				className="hidden sm:block md:block lg:block bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded mt-2 w-full"
 				onClick={handleAddToCart}
 			>
 				Add to Cart

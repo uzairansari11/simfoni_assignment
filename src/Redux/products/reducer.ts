@@ -22,6 +22,17 @@ export interface IProducts {
 		error: IError;
 		newArrivalData: IProductData[];
 	};
+
+	bestSellingCategory: {
+		loading: boolean;
+		error: IError;
+		bestSellingCategoryData: IProductData[];
+	};
+	TopSuppliers: {
+		loading: boolean;
+		error: IError;
+		TopSuppliersData: IProductData[];
+	};
 }
 
 const initialState: IProducts = {
@@ -43,6 +54,16 @@ const initialState: IProducts = {
 		loading: false,
 		error: false,
 		newArrivalData: [],
+	},
+	bestSellingCategory: {
+		loading: false,
+		error: false,
+		bestSellingCategoryData: [],
+	},
+	TopSuppliers: {
+		loading: false,
+		error: false,
+		TopSuppliersData: [],
 	},
 };
 
