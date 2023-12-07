@@ -1,4 +1,8 @@
-import { IError, IProductData } from "../../utils/types";
+import {
+	IError,
+	IProductData,
+	InterfaceBestSellingCategory,
+} from "../../utils/types";
 import { AppAction } from "./action";
 import * as types from "./type";
 
@@ -26,7 +30,7 @@ export interface IProducts {
 	bestSellingCategory: {
 		loading: boolean;
 		error: IError;
-		bestSellingCategoryData: IProductData[];
+		bestSellingCategoryData: InterfaceBestSellingCategory[];
 	};
 	TopSuppliers: {
 		loading: boolean;
@@ -106,7 +110,7 @@ export const ProductReducer = (
 					error: false,
 				},
 			};
-case types.SEARCHED_SORT:
+		case types.SEARCHED_SORT:
 			return {
 				...oldState,
 				searchedQuery: {
@@ -116,7 +120,7 @@ case types.SEARCHED_SORT:
 					error: false,
 				},
 			};
-		
+
 		case types.BEST_SELLING_PRODUCT_REQUEST:
 			return {
 				...oldState,
@@ -169,6 +173,45 @@ case types.SEARCHED_SORT:
 				},
 			};
 
+		case types.BEST_SELLING_CATEGORY_PRODUCT_REQUEST:
+			return {
+				...oldState,
+				bestSellingCategory: { ...oldState.bestSellingCategory, loading: true },
+			};
+
+		case types.BEST_SELLING_CATEGORY_PRODUCT_ERROR:
+			return {
+				...oldState,
+				bestSellingCategory: {
+					...oldState.bestSellingCategory,
+					loading: false,
+					error: action.payload,
+				},
+			};
+		case types.GET_BEST_SELLING_CATEGORY_PRODUCTS:
+			return {
+				...oldState,
+				bestSellingCategory: {
+					...oldState.bestSellingCategory,
+					bestSellingCategoryData: action.payload,
+					loading: false,
+					error: false,
+				},
+			};
+
+		case types.SEARCHED_Filtered:
+			return {
+				...oldState,
+				searchedQuery: {
+					...oldState.searchedQuery,
+					searchedData: action.payload,
+					loading: false,
+					error: false,
+				},
+			};
+
+		case types.PRODUCTS_Filtered:
+			return { ...oldState, loading: false, data: action.payload };
 		default:
 			return oldState;
 	}

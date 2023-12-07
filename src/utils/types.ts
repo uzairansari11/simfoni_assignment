@@ -29,3 +29,11 @@ export interface IProductData {
 
 export type ILoading = boolean;
 export type IError = string | boolean;
+
+
+export interface InterfaceBestSellingCategory {
+	categoryId: number;
+	displayName: string;
+	ireId: number;
+	isCategoryPage: boolean;
+}

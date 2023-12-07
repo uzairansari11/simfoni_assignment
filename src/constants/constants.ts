@@ -1,3 +1,4 @@
+import { InterfaceBestSellingCategory } from "../utils/types";
 
 export const headersConfig = {
 'X-RapidAPI-Key': `${process.env.REACT_APP_RAPID_API_KEY}`,
@@ -98,4 +99,47 @@ export const PEOPLE_SEARCHED_DATA = [
 		"Apple Cider Vinegar",
 		"Storage Container",
 		"Orange Squash",
-	];
+];
+	
+
+
+
+
+export const topSuppliers: InterfaceBestSellingCategory[] = [
+	{
+		categoryId: 1,
+		displayName: "Bajaj Electricals Ltd",
+		ireId: 1001,
+		isCategoryPage: true,
+	},
+	{
+		categoryId: 2,
+		displayName: "Bharat Electronics Limited (BEL)",
+		ireId: 1002,
+		isCategoryPage: false,
+	},
+	{
+		categoryId: 3,
+		displayName: "Godrej & Boyce Manufacturing Co. Ltd.",
+		ireId: 1003,
+		isCategoryPage: true,
+	},
+	{
+		categoryId: 4,
+		displayName: "Havells India Ltd.",
+		ireId: 1004,
+		isCategoryPage: false,
+	},
+	{
+		categoryId: 5,
+		displayName: "Intex Technologies (India) Ltd.",
+		ireId: 1005,
+		isCategoryPage: true,
+	},
+	{
+		categoryId: 6,
+		displayName: "Lava International Ltd.",
+		ireId: 1006,
+		isCategoryPage: false,
+	},
+];

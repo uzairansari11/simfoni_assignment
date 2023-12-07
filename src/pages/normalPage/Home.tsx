@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import {
+	getBestSellingCategory,
 	getBestSellingProduct,
 	getNewArrivalProduct,
 	getProducts,
@@ -14,7 +15,7 @@ import MultiCarousel from "../../components/MultiCarousel";
 import NoDataFound from "../../components/NoDataFound";
 import PeopleSearch from "../../components/PeopleSearch";
 import SimpleCard from "../../components/SimpleCard";
-import { images } from "../../constants/constants";
+import { images, topSuppliers } from "../../constants/constants";
 import AllItems from "../../sections/AllItems";
 import { options } from "../../utils/options";
 import { IProductData } from "../../utils/types";
@@ -27,37 +28,58 @@ const Home = () => {
 		error,
 		bestSelling,
 		newArrival,
+		bestSellingCategory,
 	} = useAppSelector((store) => store.ProductReducer);
 	useEffect(() => {
-		dispatch(getProducts(options("GET", "search", { keyword: "All" })));
+		dispatch(
+			getProducts(options("GET", "products/search", { keyword: "All" }))
+		);
 		dispatch(
 			getBestSellingProduct(
-				options("GET", "search", { keyword: "Best selling" })
+				options("GET", "products/search", { keyword: "Best selling" })
 			)
 		);
 		dispatch(
 			getNewArrivalProduct(
-				options("GET", "search", { keyword: "New Arrivals" })
+				options("GET", "products/search", { keyword: "New Arrivals" })
+			)
+		);
+
+		dispatch(
+			getBestSellingCategory(
+				options("GET", "categories/list", { caid: "214970" })
 			)
 		);
 	}, []);
 
-	console.log(products, " i ma from hone page");
 	const array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
+
+	console.log(products,"products")
 	return (
 		<>
 			<div className="px-2">
 				{/* Best Selling Categories */}
-				<div className="bg-white rounded-lg  py-5 mt-6 mx-2">
+				<div className="bg-white rounded-lg py-5 mt-6 mx-2">
 					<Heading title="best selling categories" />
-					<div className="sm:px-4 md:px-8 lg:px-10    ">
-						<MultiCarousel>
-							{array.map((ele, index) => {
-								return <SimpleCard key={index} />;
-							})}
-						</MultiCarousel>
+					<div className="sm:px-4 md:px-8 lg:px-10">
+						{bestSellingCategory.loading ? (
+							<LoadingSpinner />
+						) : bestSellingCategory.error ? (
+							<ErrorComponent message={bestSellingCategory.error} />
+						) : (
+							<MultiCarousel>
+								{bestSellingCategory.bestSellingCategoryData.length > 0 ? (
+									bestSellingCategory.bestSellingCategoryData.map(
+										(ele, index) => <SimpleCard key={index} data={ele} />
+									)
+								) : (
+									<NoDataFound />
+								)}
+							</MultiCarousel>
+						)}
 					</div>
 				</div>
+
 				{/* ------------------------------------------------------ */}
 				<div className=" w-full px-2 mt-6 h-96 ">
 					<MainCarousel>
@@ -97,7 +119,11 @@ const Home = () => {
 					)}
 				</div>
 				<AllItems
-					product={products.filter((_, index) => index >= 0 && index < 10)}
+					product={
+						products.length > 0
+							? products.filter((_, index) => index >= 0 && index < 10)
+							: []
+					}
 					loading={loading}
 					error={error}
 				/>
@@ -129,8 +155,8 @@ const Home = () => {
 					<Heading title="top suppliers" />
 					<div className="px-2 sm:px-4 md:px-8 lg:px-10 lg:gap-4">
 						<MultiCarousel>
-							{array.map((ele, index) => {
-								return <SimpleCard key={index} />;
+							{topSuppliers.map((ele, index) => {
+								return <SimpleCard key={index} data={ele} />;
 							})}
 						</MultiCarousel>
 					</div>

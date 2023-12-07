@@ -29,3 +29,7 @@ export const GET_TOP_SUPPLIERS_PRODUCTS = "get/top/suppliers/products";
 /* sorted data types */
 export const PRODUCTS_SORT = "products/sort";
 export const SEARCHED_SORT = "searched/sort";
+
+/*  filtered data type */
+export const PRODUCTS_Filtered = "products/filtered";
+export const SEARCHED_Filtered = "searched/filtered";

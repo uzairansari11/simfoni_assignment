@@ -39,13 +39,13 @@ const Card: React.FC<{ item: IProductData }> = ({ item }) => {
 			</Link>
 
 			<div>
-				<h3 className="text-sm font-semibold  text-left mt-2 leading-tight">
+				<h3 className="text-xs font-semibold  text-left mt-2 leading-tight">
 					{item?.name?.substring(0, 20) ?? "N/A"}...
 				</h3>
-				<p className="text-gray-500 text-sm mb-2">{item?.sku}</p>
+				<p className="text-gray-500 text-xs mb-2">{item?.sku}</p>
 			</div>
 
-			<p className="text-xl text font-bold mb-2 ">
+			<p className="text-md text font-bold mb-2 ">
 				$
 				{
 					item?.price ??
@@ -54,13 +54,13 @@ const Card: React.FC<{ item: IProductData }> = ({ item }) => {
 			</p>
 
 			<div>
-				<p className="text-teal-500 text-sm font-semibold">
+				<p className="text-teal-500 text-xs font-semibold">
 					Saving % <span className="font-normal"> 4.60</span>
 				</p>
-				<p className="text-gray-600 text-sm font-semibold">
+				<p className="text-gray-600 text-xs font-semibold">
 					Supplier:<span className="font-normal"> Supplier</span>
 				</p>
-				<p className="text-gray-600 text-sm font-semibold">
+				<p className="text-gray-600 text-xs font-semibold">
 					Delivery by:
 					<span className="font-normal">
 						{/* {item?.shipping?.messages?.[1]?.text?.split(".")[1] ??
@@ -70,8 +70,8 @@ const Card: React.FC<{ item: IProductData }> = ({ item }) => {
 				</p>
 			</div>
 
-			<div className="flex flex-col sm:flex-row justify-between items-center mt-4   gap-2 lg:justify-between    ">
-				<div className="hidden sm:flex md:flex lg:flex items-center space-x-4 mb-2 sm:mb-0 rounded-lg max-h-10  border-2">
+			<div className="flex flex-col sm:flex-row justify-between items-center mt-4   gap-2 lg:justify-between   ">
+				<div className="hidden sm:flex md:flex lg:flex items-center  mb-2 sm:mb-0 rounded-lg max-h-10  border-2">
 					<button
 						className=" hover:bg-teal-500 text-gray-600 font-bold py-2 px-4 rounded"
 						onClick={decrementQuantity}
@@ -87,7 +87,7 @@ const Card: React.FC<{ item: IProductData }> = ({ item }) => {
 					</button>
 				</div>
 
-				<div className="flex sm:block md:block lg:block   items-center w-full gap-3 ">
+				<div className="flex sm:block md:block lg:block   items-center  gap-2 ">
 					<button
 						onClick={handleHeartClick}
 						className=" flex justify-center items-center "

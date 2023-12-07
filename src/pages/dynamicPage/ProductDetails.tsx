@@ -54,7 +54,7 @@ console.log(currentProduct)
 		window.scrollTo(0, 0);
 		dispatch(
 			getBestSellingProduct(
-				options("GET", "search", { keyword: "Best selling" })
+				options("GET", "products/search", { keyword: "Best selling" })
 			)
 		);
 	}, []);
@@ -269,7 +269,7 @@ console.log(currentProduct)
 						<MultiCarousel arrow={true}>
 							{bestSelling.bestSellingData.map((ele: IProductData) => {
 								return (
-									<div className="mr-2 ml-2" key={ele.sku}>
+									<div className="mr-1 ml-1 " key={ele.sku}>
 										<Card item={ele} />
 									</div>
 								);

@@ -47,7 +47,7 @@ const SearchBar: React.FC = () => {
 			dispatch(getSavedSearchedResult(cachedData));
 		} else {
 			dispatch(
-				getSearchedProduct(options("GET", "search", { keyword: searchedText }))
+				getSearchedProduct(options("GET", "products/search", { keyword: searchedText }))
 			);
 		}
 		saveSearchToSessionStorage(searchedText);
@@ -69,7 +69,7 @@ const SearchBar: React.FC = () => {
 		const debouncedSearch = setTimeout(() => {
 			if (searchedText.trim() !== "") {
 				axios
-					.request(options("GET", "search", { keyword: searchedText }))
+					.request(options("GET", "products/search", { keyword: searchedText }))
 					.then((response) => {
 						const data = response.data.response.product_collection;
 						if (data.length > 0) {

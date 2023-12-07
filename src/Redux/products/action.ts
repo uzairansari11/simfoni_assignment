@@ -1,5 +1,9 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
-import { IError, IProductData } from "../../utils/types";
+import {
+	IError,
+	IProductData,
+	InterfaceBestSellingCategory,
+} from "../../utils/types";
 import { AppDispatch } from "../store";
 import * as types from "./type";
 
@@ -69,7 +73,6 @@ export interface INewArrival {
 	payload: IProductData[];
 }
 
-
 export interface IBestSellingCategoryRequest {
 	type: typeof types.BEST_SELLING_CATEGORY_PRODUCT_REQUEST;
 }
@@ -81,7 +84,7 @@ export interface IBestSellingCategoryError {
 
 export interface IBestSellingCategory {
 	type: typeof types.GET_BEST_SELLING_CATEGORY_PRODUCTS;
-	payload: IProductData[];
+	payload: InterfaceBestSellingCategory[];
 }
 
 export interface ITopSupplierRequest {
@@ -98,6 +101,15 @@ export interface ITopSupplier {
 	payload: IProductData[];
 }
 
+export interface ISearchedFiltered {
+	type: typeof types.SEARCHED_Filtered;
+	payload: IProductData[];
+}
+
+export interface IProductFiltered {
+	type: typeof types.PRODUCTS_Filtered;
+	payload: IProductData[];
+}
 
 export type AppAction =
 	| IProductRequest
@@ -119,7 +131,9 @@ export type AppAction =
 	| IBestSellingCategory
 	| ITopSupplierRequest
 	| ITopSupplierError
-	| ITopSupplier;
+	| ITopSupplier
+	| IProductFiltered
+	| ISearchedFiltered;
 
 /* ---------------------------------------------------------------------------------------- */
 
@@ -144,7 +158,7 @@ const searchedQueryRequest = (): ISearchedQueryRequests => {
 	return { type: types.SEARCHED_QUERY_REQUEST };
 };
 
-const searchedQueryErrors = (data:IError): ISearchedQueryError => {
+const searchedQueryErrors = (data: IError): ISearchedQueryError => {
 	return { type: types.SEARCHED_QUERY_ERROR, payload: data };
 };
 
@@ -160,9 +174,7 @@ export const bestSellingRequest = (): IBestSellingRequest => {
 	return { type: types.BEST_SELLING_PRODUCT_REQUEST };
 };
 
-export const bestSellingErrors = (
-	data: IError
-): IBestSellingError => {
+export const bestSellingErrors = (data: IError): IBestSellingError => {
 	return { type: types.BEST_SELLING_PRODUCT_ERROR, payload: data };
 };
 
@@ -186,34 +198,37 @@ export const bestSellingCategoryRequest = (): IBestSellingCategoryRequest => {
 	return { type: types.BEST_SELLING_CATEGORY_PRODUCT_REQUEST };
 };
 
-export const bestSellingCategoryErrors = (data: IError): IBestSellingCategoryError => {
+export const bestSellingCategoryErrors = (
+	data: IError
+): IBestSellingCategoryError => {
 	return { type: types.BEST_SELLING_CATEGORY_PRODUCT_ERROR, payload: data };
 };
 
 export const bestSellingCategoryProduct = (
-	data: IProductData[]
+	data: InterfaceBestSellingCategory[]
 ): IBestSellingCategory => {
 	return { type: types.GET_BEST_SELLING_CATEGORY_PRODUCTS, payload: data };
 };
-
 
 export const topSuppliersRequest = (): ITopSupplierRequest => {
 	return { type: types.TOP_SUPPLIERS_PRODUCTS_REQUEST };
 };
 
-export const topSuppliersErrors = (
-	data: IError
-): ITopSupplierError => {
+export const topSuppliersErrors = (data: IError): ITopSupplierError => {
 	return { type: types.TOP_SUPPLIERS_PRODUCTS_ERROR, payload: data };
 };
 
-export const topSuppliersProduct = (
-	data: IProductData[]
-): ITopSupplier => {
+export const topSuppliersProduct = (data: IProductData[]): ITopSupplier => {
 	return { type: types.GET_TOP_SUPPLIERS_PRODUCTS, payload: data };
 };
 
+export const searchedFiltered = (data: IProductData[]): ISearchedFiltered => {
+	return { type: types.SEARCHED_Filtered, payload: data };
+};
 
+export const productFiltered = (data: IProductData[]): IProductFiltered => {
+	return { type: types.PRODUCTS_Filtered, payload: data };
+};
 /* ---------------------------------------------------------------------------------------- */
 
 /* --------------------------------Functions---------------------- */
@@ -227,19 +242,18 @@ export const getProducts =
 		try {
 			let res: AxiosResponse<any> = await axios.request(options);
 			let finalResponse = res.data.response.product_collection;
-			let newArray = finalResponse.map(
-				(item: any) => {
-					return {
-						sku: item.sku,
-						url: item.image_url,
-						price: item.sale_price,
-						name: item.name,
-						manufacturer_name: item.manufacturer_name,
-						quantity: 1,
-						like: false,
-					};
-				}
-			);
+			console.log(finalResponse, "i am from final response for all");
+			let newArray = finalResponse.map((item: any) => {
+				return {
+					sku: item.sku,
+					url: item.image_url,
+					price: item.sale_price,
+					name: item.name,
+					manufacturer_name: item.manufacturer_name,
+					quantity: 1,
+					like: false,
+				};
+			});
 			dispatch(getProductSuccess(newArray));
 		} catch (error: any) {
 			dispatch(productError(error.message));
@@ -267,7 +281,7 @@ export const getSearchedProduct =
 		try {
 			const response = await axios.request(options);
 			const data = response.data.response.product_collection;
-			
+
 			if (data.length) {
 				let newArray = data.map((item: any) => {
 					return {
@@ -347,4 +361,37 @@ export const getSavedSearchedResult =
 	(data: IProductData[]): any =>
 	(dispatch: AppDispatch) => {
 		dispatch(searchedProduct(data));
+	};
+
+/* ----------- Get Best Selling Category ---------- */
+
+export const getBestSellingCategory =
+	(options: AxiosRequestConfig<any>): any =>
+	async (dispatch: AppDispatch) => {
+		dispatch(bestSellingCategoryRequest());
+		try {
+			const response = await axios.request(options);
+
+			const data = response.data.response.categoryAppData.departmentCategories;
+
+			if (data.length) {
+				dispatch(bestSellingCategoryProduct(data));
+			}
+		} catch (error: any) {
+			dispatch(bestSellingErrors(error.message));
+		}
+	};
+
+/* ------- Filtered Data */
+
+export const getProductFiltered =
+	(data: IProductData[]): any =>
+	(dispatch: AppDispatch) => {
+		dispatch(productFiltered(data));
+	};
+
+export const getSearchedFiltered =
+	(data: IProductData[]): any =>
+	(dispatch: AppDispatch) => {
+		dispatch(searchedFiltered(data));
 	};

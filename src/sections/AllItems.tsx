@@ -4,9 +4,10 @@ import { IError, ILoading, IProductData } from "../utils/types";
 import { ALL_ITEMS } from "../constants/constants";
 import LoadingSpinner from "../components/LoadingSpinner";
 import ErrorComponent from "../components/ErrorComponent";
+import NoDataFound from "../components/NoDataFound";
 
 const AllItems: React.FC<{
-	product: any[];
+	product: IProductData[];
 	loading: ILoading;
 	error: IError;
 }> = ({ product, loading, error }) => {
@@ -34,7 +35,7 @@ const AllItems: React.FC<{
 					})}
 				</div>
 			) : (
-				<p>No data found</p>
+			<NoDataFound />
 			)}
 		</div>
 	);

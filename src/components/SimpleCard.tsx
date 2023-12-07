@@ -1,6 +1,7 @@
 import React from "react";
+import { InterfaceBestSellingCategory } from "../utils/types";
 
-const SimpleCard: React.FC = () => {
+const SimpleCard: React.FC<{data:InterfaceBestSellingCategory}> = ({data}) => {
 	return (
 		<div className="w-auto mx-auto bg-white rounded-md shadow-sm shadow-slate-400 overflow-hidden border-2 ml-2">
 			<div className="flex flex-col items-center">
@@ -10,8 +11,8 @@ const SimpleCard: React.FC = () => {
 					alt="Placeholder"
 				/>
 				<div className="flex flex-col p-1">
-					<p className="uppercase tracking-wide text-sm font-semibold">
-						Category
+					<p className="uppercase tracking-wide text-xs font-semibold">
+						{data.displayName.substring(0,10)}...
 					</p>
 				</div>
 			</div>

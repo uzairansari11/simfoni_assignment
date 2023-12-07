@@ -3,8 +3,8 @@ import React from "react";
 const NoDataFound = () => {
 	return (
 		<div className="flex items-center justify-center h-full">
-			<div className="bg-gray-100 shadow-md rounded-md p-6 text-center">
-				<h2 className="text-2xl font-semibold mb-4">No Data Found</h2>
+			<div className="bg-gray-100 shadow-md rounded-md p-3 text-center">
+				<h2 className="text-xl font-semibold mb-2">No Data Found</h2>
 				<p className="text-gray-600">
 					Sorry, we couldn't find any data matching your search.
 				</p>

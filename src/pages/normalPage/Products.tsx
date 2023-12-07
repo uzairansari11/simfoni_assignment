@@ -26,7 +26,7 @@ const Products: React.FC = () => {
 	useEffect(() => {
 		window.scrollTo(0, 0);
 		if (products.length === 0 && id === ALL_ITEMS) {
-			dispatch(getProducts(options("GET", "list")));
+			dispatch(getProducts(options("GET", "products/list")));
 		}
 		if (searchedQuery.searchedData.length === 0 && id !== ALL_ITEMS) {
 			const cachedDataString = sessionStorage.getItem(id || "");
@@ -34,7 +34,7 @@ const Products: React.FC = () => {
 				const cachedData = JSON.parse(cachedDataString);
 				dispatch(getSavedSearchedResult(cachedData));
 			} else {
-				dispatch(getSearchedProduct(options("GET", "search", { keyword: id })));
+				dispatch(getSearchedProduct(options("GET", "products/search", { keyword: id })));
 			}
 		}
 	}, [dispatch, id, products.length, searchedQuery.searchedData.length]);
