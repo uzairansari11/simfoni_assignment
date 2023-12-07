@@ -66,7 +66,7 @@ const Navbar = () => {
 				getSearchedProduct(
 					options("GET", "products/search", {
 						keyword: location.pathname.split("/")[2],
-						filters: `&filter=item_price~${maxPrice}`,
+						filters: `item_price~${maxPrice}`,
 					})
 				)
 			);
@@ -76,7 +76,7 @@ const Navbar = () => {
 				getProducts(
 					options("GET", "products/search", {
 						keyword: "All",
-						filters: `&filter=item_price~${maxPrice}`,
+						filters: `item_price~${maxPrice}`,
 					})
 				)
 			);
