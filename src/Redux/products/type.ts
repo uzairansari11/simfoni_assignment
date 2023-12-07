@@ -19,3 +19,4 @@ export const GET_NEW_ARRIVAL_PRODUCTS = "get/new/arrival/products";
 
 /* sorted data types */
 export const PRODUCTS_SORT = "products/sort";
+export const SEARCHED_SORT = "searched/sort";

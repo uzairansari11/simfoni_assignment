@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { IProductData } from "../utils/types";
 
-const Card: React.FC<{ item: any }> = ({ item }) => {
+const Card: React.FC<{ item: IProductData }> = ({ item }) => {
 	const [quantity, setQuantity] = useState(1);
 	const [isChecked, setIsChecked] = useState(true);
 
@@ -27,11 +28,12 @@ const Card: React.FC<{ item: any }> = ({ item }) => {
 	return (
 		<div className="flex flex-col border-2 rounded-lg shadow-lg p-2 w-auto mx-auto my-4 ">
 			<Link to={`/item/${item?.sku}`}>
-				<div className="border-2 rounded-lg overflow-hidden  ">
+				<div className="border-2 rounded-lg overflow-hidden h-32 ">
 					<img
-						src={"https://via.placeholder.com/600"}
+						src={item?.url}
 						alt={item?.name?.substring(0, 10) || "N/A"}
 						className=" h-auto m-auto object-cover"
+						
 					/>
 				</div>
 			</Link>
@@ -45,8 +47,8 @@ const Card: React.FC<{ item: any }> = ({ item }) => {
 
 			<p className="text-xl text font-bold mb-2 ">
 				$
-				{item?.pricing?.customerPrice?.unitPrice?.value ??
-					item?.item_price ??
+				{
+					item?.price ??
 					"N/A"}
 				<span className="text-xs text-slate-500 font-normal">/each</span>
 			</p>
@@ -61,15 +63,15 @@ const Card: React.FC<{ item: any }> = ({ item }) => {
 				<p className="text-gray-600 text-sm font-semibold">
 					Delivery by:
 					<span className="font-normal">
-						{item?.shipping?.messages?.[1]?.text?.split(".")[1] ??
+						{/* {item?.shipping?.messages?.[1]?.text?.split(".")[1] ??
 							item?.delivery_guarantee_text?.split(".")[1] ??
-							"N/A"}
+							"N/A"} */}
 					</span>
 				</p>
 			</div>
 
 			<div className="flex flex-col sm:flex-row justify-between items-center mt-4   gap-2 lg:justify-between    ">
-				<div className="hidden md:flex lg:flex items-center space-x-4 mb-2 sm:mb-0 rounded-lg max-h-10  border-2">
+				<div className="hidden  md:flex lg:flex items-center space-x-4 mb-2 sm:mb-0 rounded-lg max-h-10  border-2">
 					<button
 						className=" hover:bg-teal-500 text-gray-600 font-bold py-2 px-4 rounded"
 						onClick={decrementQuantity}
@@ -113,7 +115,7 @@ const Card: React.FC<{ item: any }> = ({ item }) => {
 					</button>
 
 					<button
-						className="bg-teal-500 hover:bg-teal-700 text-white font-bold py-1.5 px-4 rounded w-full sm:hidden md:hidden lg:hidden"
+						className="bg-teal-500 hover:bg-teal-700 text-white font-bold py-1.5 px-4 rounded w-full sm:block md:hidden lg:hidden"
 						onClick={handleAddToCart}
 					>
 						Add

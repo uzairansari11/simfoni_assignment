@@ -1,74 +1,31 @@
-
-
 export interface IHeaderConfig {
-  'X-RapidAPI-Key': string,
-    'X-RapidAPI-Host':  string
+	"X-RapidAPI-Key": string;
+	"X-RapidAPI-Host": string;
 }
 
 export interface IOptions {
-  method: string,
-  url: string,
-  headers: IHeaderConfig
-  params?:object |Array<object>
+	method: string;
+	url: string;
+	headers: IHeaderConfig;
+	params?: object | Array<object>;
 }
 
 export interface IProductData {
-  banner_type: number;
-  customer_reviews: {
-    average_rating_value: number;
-    rating_count: number;
-  };
-  display_info: {
-    flashDeals: null | string;
-    priceCopy: null | string;
-  };
-  hasReturnSale: boolean;
-  inventory: {
-    stockStatus: string;
-  };
-  is_kit: boolean;
-  leadImage: {
-    id: number;
-  };
-  manufacturer: {
-    name: string;
-    shortName: string;
-  };
-  name: string;
-  options: {
-    optionConnectionMetadata: any; // You might need to define the structure for this further
-  };
-  percent_sold: number;
-  pricing: {
-    customerPrice: any; // Define the structure based on pricing data
-    listPrice: any; // Define the structure based on pricing data
-    clearancePrice: null | any; // Define the structure based on pricing data
-    suggestedRetailPrice: null | any; // Define the structure based on pricing data
-  };
-  promo_text: string;
-  shipping: {
-    messages: [{text:string,type:string,programs:[string]}];
-  };
-
-  sku: string;
-  special_sku_type: number;
-  sponsoredData: null;
-  three_d_info: null;
-  url: string;
+	sku: string;
+	url?: string;
+	price: number;
+	name: string;
+	manufacturer_name: string;
+	quantity: number;
+	like: boolean;
+	vendor_name?: string;
+	brand_name?: string;
+	delivery?: string;
+	origin?: string;
+	specification?: [];
+	size?: [];
+	description?: string;
 }
 
-export interface ApiResponse {
-  response: {
-    data: {
-      category: {
-        browse: {
-          products: IProductData[]; 
-        };
-      };
-    };
-  };
-}
-
-
-export type ILoading = boolean
-export type IError = string | boolean
+export type ILoading = boolean;
+export type IError = string | boolean;

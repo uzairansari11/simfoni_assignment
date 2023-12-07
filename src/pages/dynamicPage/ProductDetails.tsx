@@ -13,7 +13,9 @@ import { IProductData } from "../../utils/types";
 import { getBestSellingProduct } from "../../Redux/products/action";
 import { options } from "../../utils/options";
 const ProductDetails: React.FC = () => {
-	const { currentProduct, id, loading, error } = useCurrentParamProduct();
+	const { currentProduct, loading, error } = useCurrentParamProduct();
+
+console.log(currentProduct)
 
 	const bestSelling = useAppSelector(
 		(store) => store.ProductReducer.bestSelling
@@ -23,15 +25,13 @@ const ProductDetails: React.FC = () => {
 		"https://via.placeholder.com/600",
 		"https://via.placeholder.com/100",
 	];
-	useEffect(() => {
 
-},[id])
 	const [selectedImage, setSelectedImage] = useState<string>(smallImages[0]);
 	const [additionalInfoOpen, setAdditionalInfoOpen] = useState<boolean>(true);
 	const [longDescriptionOpen, setLongDescriptionOpen] = useState<boolean>(true);
 	const [quantity, setQuantity] = useState<number>(1);
 	const [isChecked, setIsChecked] = useState<boolean>(true);
-		const dispatch = useAppDispatch();
+	const dispatch = useAppDispatch();
 	const incrementQuantity = () => {
 		setQuantity(quantity + 1);
 	};
@@ -99,18 +99,18 @@ const ProductDetails: React.FC = () => {
 
 					<div className="flex flex-col w-full md:w-1/2 lg:w-1/2">
 						<h1 className="text-xl font-semibold mb-2 ">
-							{currentProduct?.manufacturer.name || "N/A"}
+							{currentProduct?.name || "N/A"}
 						</h1>
 						<p className="text-gray-400  text-md mb-2 ">
-							SKU Number {id || "N/A"}
+							SKU Number {currentProduct?.sku || "N/A"}
 						</p>
 						<p className=" text-md font-semibold mb-2 ">
-							{currentProduct?.manufacturer.name || "N/A"}
+							{currentProduct?.name || "N/A"}
 						</p>
 						<p className="text-md font-bold mb-4">
 							Price:{" "}
 							<span className="text-xl font-bold">
-								${currentProduct?.pricing.customerPrice.unitPrice.value}
+								${currentProduct?.price||"N/A"}
 							</span>{" "}
 							<span className="text-gray-400 font-normal">/each</span>
 						</p>
@@ -186,13 +186,13 @@ const ProductDetails: React.FC = () => {
 									<p className="font-semibold">
 										Vendor Name:{" "}
 										<span className="font-normal text-sm text-gray-400 ">
-											{currentProduct?.manufacturer.name || "N/A"}
+											{currentProduct?.manufacturer_name || "N/A"}
 										</span>
 									</p>
 									<p className="font-semibold">
 										Manufacturer Name:{" "}
 										<span className="font-normal text-sm text-gray-400 ">
-											{currentProduct?.manufacturer.name || "N/A"}
+											{currentProduct?.manufacturer_name || "N/A"}
 										</span>
 									</p>
 									<p className="font-semibold">
@@ -223,7 +223,12 @@ const ProductDetails: React.FC = () => {
 									<p className="font-semibold">
 										Pack Size:{" "}
 										<span className="font-normal text-sm text-gray-400 ">
-											{"N/A"}
+													{
+														currentProduct?.size.length > 0 ? currentProduct?.size.map((ele:any) => {
+															return ele.value
+														})
+														:
+														"N/A"}
 										</span>
 									</p>
 								</div>
@@ -242,9 +247,9 @@ const ProductDetails: React.FC = () => {
 							{longDescriptionOpen && (
 								<div className=" mt-2 text-gray-400">
 									<p>
-										{currentProduct?.manufacturer.details == "0"
+										{currentProduct?.description== "0"
 											? "N/A"
-											: currentProduct?.manufacturer.details}
+											: currentProduct?.description}
 									</p>
 								</div>
 							)}

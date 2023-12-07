@@ -1,5 +1,5 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
-import { ApiResponse, IProductData } from "../../utils/types";
+import { IError, IProductData } from "../../utils/types";
 import { AppDispatch } from "../store";
 import * as types from "./type";
 
@@ -10,7 +10,7 @@ export interface IProductRequest {
 
 export interface IProductError {
 	type: typeof types.PRODUCT_ERROR;
-	payload: string|boolean;
+	payload: IError;
 }
 
 export interface IGetProductSuccess {
@@ -21,9 +21,15 @@ export interface IProductSorted {
 	type: typeof types.PRODUCTS_SORT;
 	payload: IProductData[];
 }
+
+export interface ISearchedSorted {
+	type: typeof types.SEARCHED_SORT;
+	payload: IProductData[];
+}
+
 export interface IProductSearched {
 	type: typeof types.GET_SEARCHED_PRODUCTS;
-	payload: any[];
+	payload: IProductData[];
 }
 
 export interface ISearchedQueryRequests {
@@ -32,7 +38,7 @@ export interface ISearchedQueryRequests {
 
 export interface ISearchedQueryError {
 	type: typeof types.SEARCHED_QUERY_ERROR;
-	payload: string | boolean;
+	payload: IError;
 }
 
 export interface IBestSellingRequest {
@@ -41,12 +47,12 @@ export interface IBestSellingRequest {
 
 export interface IBestSellingError {
 	type: typeof types.BEST_SELLING_PRODUCT_ERROR;
-	payload: string | boolean;
+	payload: IError;
 }
 
 export interface IBestSelling {
 	type: typeof types.GET_BEST_SELLING_PRODUCTS;
-	payload: any[];
+	payload: IProductData[];
 }
 
 export interface INewArrivalRequest {
@@ -55,16 +61,13 @@ export interface INewArrivalRequest {
 
 export interface INewArrivalError {
 	type: typeof types.NEW_ARRIVAL_PRODUCT_ERROR;
-	payload: string | boolean;
+	payload: IError;
 }
 
 export interface INewArrival {
 	type: typeof types.GET_NEW_ARRIVAL_PRODUCTS;
-	payload: any[];
+	payload: IProductData[];
 }
-
-
-
 
 export type AppAction =
 	| IProductRequest
@@ -79,10 +82,10 @@ export type AppAction =
 	| IBestSelling
 	| INewArrivalRequest
 	| INewArrivalError
-	|INewArrival
+	| INewArrival
+	| ISearchedSorted;
 
 /* ---------------------------------------------------------------------------------------- */
-
 
 /* -----------------------Action Creator-------------------- */
 const productRequest = (): IProductRequest => {
@@ -105,43 +108,45 @@ const searchedQueryRequest = (): ISearchedQueryRequests => {
 	return { type: types.SEARCHED_QUERY_REQUEST };
 };
 
-const searchedQueryErrors = (data: string | boolean): ISearchedQueryError => {
+const searchedQueryErrors = (data:IError): ISearchedQueryError => {
 	return { type: types.SEARCHED_QUERY_ERROR, payload: data };
 };
 
-export const searchedProduct = (data: any[]): IProductSearched => {
+export const searchedProduct = (data: IProductData[]): IProductSearched => {
 	return { type: types.GET_SEARCHED_PRODUCTS, payload: data };
+};
+
+const searchedSorted = (data: IProductData[]): ISearchedSorted => {
+	return { type: types.SEARCHED_SORT, payload: data };
 };
 
 export const bestSellingRequest = (): IBestSellingRequest => {
 	return { type: types.BEST_SELLING_PRODUCT_REQUEST };
 };
 
-export const bestSellingErrors = (data: string | boolean): IBestSellingError => {
+export const bestSellingErrors = (
+	data: IError
+): IBestSellingError => {
 	return { type: types.BEST_SELLING_PRODUCT_ERROR, payload: data };
 };
 
-export const bestSellingProduct = (data: any[]): IBestSelling => {
+export const bestSellingProduct = (data: IProductData[]): IBestSelling => {
 	return { type: types.GET_BEST_SELLING_PRODUCTS, payload: data };
 };
-
-
-
 
 export const newArrivalRequest = (): INewArrivalRequest => {
 	return { type: types.NEW_ARRIVAL_PRODUCT_REQUEST };
 };
 
-export const newArrivalErrors = (data: string | boolean): INewArrivalError => {
+export const newArrivalErrors = (data: IError): INewArrivalError => {
 	return { type: types.NEW_ARRIVAL_PRODUCT_ERROR, payload: data };
 };
 
-export const newArrivalProduct = (data: any[]): INewArrival => {
+export const newArrivalProduct = (data: IProductData[]): INewArrival => {
 	return { type: types.GET_NEW_ARRIVAL_PRODUCTS, payload: data };
 };
 
 /* ---------------------------------------------------------------------------------------- */
-
 
 /* --------------------------------Functions---------------------- */
 
@@ -152,22 +157,41 @@ export const getProducts =
 		dispatch(productRequest());
 
 		try {
-			let res: AxiosResponse<ApiResponse> = await axios.request(options);
-			let finalResponse = res.data.response.data.category.browse.products;
-			dispatch(getProductSuccess(finalResponse));
+			let res: AxiosResponse<any> = await axios.request(options);
+			let finalResponse = res.data.response.product_collection;
+			let newArray = finalResponse.map(
+				(item: any) => {
+					return {
+						sku: item.sku,
+						url: item.image_url,
+						price: item.sale_price,
+						name: item.name,
+						manufacturer_name: item.manufacturer_name,
+						quantity: 1,
+						like: false,
+					};
+				}
+			);
+			dispatch(getProductSuccess(newArray));
 		} catch (error: any) {
 			dispatch(productError(error.message));
 		}
 	};
 
-	/* ----------------Get Product Sorted ---------------- */
+/* ----------------Get Product Sorted ---------------- */
 export const getProductSorted =
 	(data: IProductData[]): any =>
 	(dispatch: AppDispatch) => {
 		dispatch(productSorted(data));
 	};
 
-	/* ---------Search Product ------------------------ */
+export const getSearchedSorted =
+	(data: IProductData[]): any =>
+	(dispatch: AppDispatch) => {
+		dispatch(searchedSorted(data));
+	};
+
+/* ---------Search Product ------------------------ */
 export const getSearchedProduct =
 	(options: AxiosRequestConfig<any>): any =>
 	async (dispatch: AppDispatch) => {
@@ -175,8 +199,20 @@ export const getSearchedProduct =
 		try {
 			const response = await axios.request(options);
 			const data = response.data.response.product_collection;
+			
 			if (data.length) {
-				dispatch(searchedProduct(data));
+				let newArray = data.map((item: any) => {
+					return {
+						sku: item.sku,
+						url: item.image_url,
+						price: item.sale_price,
+						name: item.name,
+						manufacturer_name: item.manufacturer_name,
+						quantity: 1,
+						like: false,
+					};
+				});
+				dispatch(searchedProduct(newArray));
 			}
 		} catch (error: any) {
 			dispatch(searchedQueryErrors(error.message));
@@ -194,15 +230,26 @@ export const getBestSellingProduct =
 			const response = await axios.request(options);
 			const data = response.data.response.product_collection;
 			if (data.length) {
-				dispatch(bestSellingProduct(data));
+				let newArray = data.map((item: any) => {
+					return {
+						sku: item.sku,
+						url: item.image_url,
+						price: item.sale_price,
+						name: item.name,
+						manufacturer_name: item.manufacturer_name,
+						quantity: 1,
+						like: false,
+					};
+				});
+				dispatch(bestSellingProduct(newArray));
 			}
 		} catch (error: any) {
 			dispatch(bestSellingErrors(error.message));
 		}
-		};
-	
+	};
+
 /* -------------Get New Arrival Products */
-		export const getNewArrivalProduct =
+export const getNewArrivalProduct =
 	(options: AxiosRequestConfig<any>): any =>
 	async (dispatch: AppDispatch) => {
 		dispatch(newArrivalRequest());
@@ -210,16 +257,26 @@ export const getBestSellingProduct =
 			const response = await axios.request(options);
 			const data = response.data.response.product_collection;
 			if (data.length) {
-				dispatch(newArrivalProduct(data));
+				let newArray = data.map((item: any) => {
+					return {
+						sku: item.sku,
+						url: item.image_url,
+						price: item.sale_price,
+						name: item.name,
+						manufacturer_name: item.manufacturer_name,
+						quantity: 1,
+						like: false,
+					};
+				});
+				dispatch(newArrivalProduct(newArray));
 			}
 		} catch (error: any) {
 			dispatch(newArrivalErrors(error.message));
 		}
 	};
 
-
-export const getSavedSearchedResult = 
-	(data: any[]): any =>
+export const getSavedSearchedResult =
+	(data: IProductData[]): any =>
 	(dispatch: AppDispatch) => {
 		dispatch(searchedProduct(data));
 	};

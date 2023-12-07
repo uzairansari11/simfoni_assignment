@@ -6,7 +6,7 @@ import LoadingSpinner from "../components/LoadingSpinner";
 import ErrorComponent from "../components/ErrorComponent";
 
 const AllItems: React.FC<{
-	product: IProductData[];
+	product: any[];
 	loading: ILoading;
 	error: IError;
 }> = ({ product, loading, error }) => {

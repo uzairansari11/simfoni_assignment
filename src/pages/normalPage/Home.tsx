@@ -29,7 +29,7 @@ const Home = () => {
 		newArrival,
 	} = useAppSelector((store) => store.ProductReducer);
 	useEffect(() => {
-		dispatch(getProducts(options("GET", "list")));
+		dispatch(getProducts(options("GET", "search", { keyword: "All" })));
 		dispatch(
 			getBestSellingProduct(
 				options("GET", "search", { keyword: "Best selling" })
@@ -42,7 +42,7 @@ const Home = () => {
 		);
 	}, []);
 
-	// console.log(products, " i ma from hone page");
+	console.log(products, " i ma from hone page");
 	const array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
 	return (
 		<>
@@ -83,7 +83,7 @@ const Home = () => {
 					) : bestSelling.bestSellingData.length > 0 ? (
 						<div className=" px-2 sm:px-4 md:px-8 gap-4">
 							<MultiCarousel arrow={true}>
-								{bestSelling.bestSellingData.map((ele: IProductData) => {
+								{bestSelling.bestSellingData.map((ele: any) => {
 									return (
 										<div className="mr-2 ml-2" key={ele.sku}>
 											<Card item={ele} />

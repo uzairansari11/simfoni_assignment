@@ -41,6 +41,11 @@ const Products: React.FC = () => {
 	console.log(searchedQuery, "from product pages", typeof id);
 	return (
 		<>
+			<h2 className="text-2xl font-bold mb-2 ml-4 mt-4">"{id}"</h2>
+			<h2 className="text-xs font-semibold text-gray-400 mb-4 ml-8">
+				Found {id===ALL_ITEMS?products.length:searchedQuery.searchedData.length} items
+			</h2>
+
 			{id === ALL_ITEMS ? (
 				loading ? (
 					<LoadingSpinner height="100vh" size={30} />

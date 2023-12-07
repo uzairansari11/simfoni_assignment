@@ -1,41 +1,50 @@
 import React, { useState } from "react";
-import { getProductSorted } from "../Redux/products/action";
+import { useLocation } from "react-router-dom";
+import { getProductSorted, getSearchedSorted } from "../Redux/products/action";
 import { useAppDispatch, useAppSelector } from "../Redux/store";
 import SearchBar from "./Searchbar";
+import { IProductData } from "../utils/types";
 
 const Navbar = () => {
 	const dispatch = useAppDispatch();
 	const product = useAppSelector((store) => store.ProductReducer.data);
+	const searchedData = useAppSelector(
+		(store) => store.ProductReducer.searchedQuery.searchedData
+	);
+	const location = useLocation();
+
 	const [sortedValue, setSortedValue] = useState<string>("");
-const handleSort = (value: string) => {
-	setSortedValue(value);
-	let sortedData;
 
-	if (value === "asc") {
-		sortedData = [...product].sort(
-			(a, b) =>
-				a.pricing.customerPrice.unitPrice.value -
-				b.pricing.customerPrice.unitPrice.value
-		);
-	} else if (value === "desc") {
-		sortedData = [...product].sort(
-			(a, b) =>
-				b.pricing.customerPrice.unitPrice.value -
-				a.pricing.customerPrice.unitPrice.value
-		);
-	} else if (value === "a") {
-		 sortedData = [...product].sort((a, b) => a.name.localeCompare(b.name));
-	} else if (value === "z") {
-		sortedData = [...product].sort((a, b) => b.name.localeCompare(a.name));
-	}
-	
-	else {
-		// Handle default sorting or no sorting case
-		sortedData = [...product];
-	}
+	const handleSort = (value: string) => {
+		const updatedSelectedData =
+			location.pathname !== "/products/allitems"
+				? [...searchedData]
+				: [...product];
 
-	dispatch(getProductSorted(sortedData));
-};
+		setSortedValue(value);
+
+		let sortedData: IProductData[] = [...updatedSelectedData];
+
+		if (value === "asc") {
+			sortedData = updatedSelectedData.sort((a, b) => a.price - b.price);
+		} else if (value === "desc") {
+			sortedData = updatedSelectedData.sort((a, b) => b.price - a.price);
+		} else if (value === "a") {
+			sortedData = updatedSelectedData.sort((a, b) =>
+				a.name.localeCompare(b.name)
+			);
+		} else if (value === "z") {
+			sortedData = updatedSelectedData.sort((a, b) =>
+				b.name.localeCompare(a.name)
+			);
+		}
+
+		if (location.pathname !== "/products/allitems") {
+			dispatch(getSearchedSorted(sortedData));
+		} else {
+			dispatch(getProductSorted(sortedData));
+		}
+	};
 
 	return (
 		<div className=" flex justify-between gap-x-10  py-2 items-center px-4 mt-4">
@@ -47,7 +56,7 @@ const handleSort = (value: string) => {
 					Upload
 				</button>
 			</div>
-			<div  className=" hidden w-3/5 md:flex  justify-between gap-x-10">
+			<div className=" hidden w-3/5 md:flex  justify-between gap-x-10">
 				<select className="w-1/2 p-1 rounded-md border-2focus:border-teal-500 justify-between ">
 					<option disabled selected>
 						Filter

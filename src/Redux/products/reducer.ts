@@ -1,26 +1,26 @@
-import { IProductData } from "../../utils/types";
+import { IError, IProductData } from "../../utils/types";
 import { AppAction } from "./action";
 import * as types from "./type";
 
 export interface IProducts {
 	loading: boolean;
-	error: string | boolean;
+	error: IError;
 	data: IProductData[];
 	searchedQuery: {
 		loading: boolean;
-		error: string | boolean;
-		searchedData: any[];
+		error: IError;
+		searchedData: IProductData[];
 	};
 	bestSelling: {
 		loading: boolean;
-		error: string | boolean;
-		bestSellingData: any[];
+		error: IError;
+		bestSellingData: IProductData[];
 	};
 
 	newArrival: {
 		loading: boolean;
-		error: string | boolean;
-		newArrivalData: any[];
+		error: IError;
+		newArrivalData: IProductData[];
 	};
 }
 
@@ -85,7 +85,16 @@ export const ProductReducer = (
 					error: false,
 				},
 			};
-
+case types.SEARCHED_SORT:
+			return {
+				...oldState,
+				searchedQuery: {
+					...oldState.searchedQuery,
+					searchedData: action.payload,
+					loading: false,
+					error: false,
+				},
+			};
 		
 		case types.BEST_SELLING_PRODUCT_REQUEST:
 			return {
