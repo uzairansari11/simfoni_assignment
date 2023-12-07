@@ -15,7 +15,7 @@ const useCurrentParamProduct = () => {
 		setLoading(true);
 		try {
 			const response: AxiosResponse<any> = await axios.request(
-				options("GET", "v2/detail", { sku: id })
+				options("GET", "products/v2/detail", { sku: id })
 			);
 			const ele = response.data.response.data.product;
 			console.log(ele," i am ele")
